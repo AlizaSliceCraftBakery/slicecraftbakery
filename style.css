@@ -377,14 +377,14 @@ nav.scrolled {
 /* Category filter pills */
 .category-filters {
   display: flex;
-  gap: 0.75rem;
-  justify-content: center;
   flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
   margin-bottom: 3rem;
   padding: 0 2rem;
 }
 .filter-pill {
-  padding: 0.55rem 1.5rem;
+  padding: 0.55rem 1.2rem;
   border: 1px solid rgba(92,61,30,0.25);
   background: transparent;
   font-family: 'Josefin Sans', sans-serif;
@@ -396,6 +396,7 @@ nav.scrolled {
   transition: all 0.25s ease;
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
 }
 .filter-pill::before {
   content: '';
@@ -757,15 +758,8 @@ footer {
   .menu-grid { padding: 0 1rem; }
   .hero-cta { flex-direction: column; align-items: center; }
 
-  .filter-pill {
-    padding: 0.5rem 1rem;
-    font-size: 0.58rem;
-  }
-  .category-filters {
-    gap: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+  .category-filters { padding: 0 1rem; gap: 0.4rem; }
+  .filter-pill { padding: 0.45rem 0.85rem; font-size: 0.56rem; letter-spacing: 0.12em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -809,14 +803,7 @@ footer {
   line-height: 1;
 }
 
-/* ===== CATEGORY FILTERS — scrollable on mobile ===== */
-.category-filters {
-  flex-wrap: wrap;
-  justify-content: center;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  gap: 0.6rem;
-}
+
 
 /* ===== LOGO IMAGE STYLES ===== */
 
