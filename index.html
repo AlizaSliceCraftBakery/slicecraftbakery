@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Slice Craft Bakery — Handcrafted artisan bread, cakes, tarts, and pastries baked fresh daily in the Philippines.">
+  <title>Slice Craft Bakery</title>
+
+  <!-- Google Fonts (requires internet; falls back gracefully offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Josefin+Sans:wght@100;200;300;400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     CURSOR
+     ============================================================ -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ============================================================
+     LOADING SCREEN
+     ============================================================ -->
+<div id="loading">
+  <div>
+    <img src="images/logo.png" class="loading-logo-img" alt="Slice Craft Bakery">
+  </div>
+  <div class="loading-bar-wrap">
+    <div class="loading-bar-fill" id="loadingBar"></div>
+  </div>
+  <div class="loading-text" id="loadingText">Loading…</div>
+</div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav id="mainNav">
+  <a href="#hero" class="nav-logo">
+    <img src="images/logo.png" class="nav-logo-img" alt="Slice Craft Bakery">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">Our Story</a></li>
+    <li><a href="#contact">Visit Us</a></li>
+  </ul>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="hero">
+  <div class="particles" id="particles"></div>
+
+  <div class="hero-content">
+    <img src="images/logo.png" class="hero-logo-img" alt="Slice Craft Bakery">
+
+    <p class="hero-tagline">Handcrafted with love, baked fresh daily</p>
+    <div class="hero-divider"></div>
+    <div class="hero-cta">
+      <a href="#menu"  class="btn-primary">Explore Menu</a>
+      <a href="#about" class="btn-outline">Our Story</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FEATURED STRIP
+     ============================================================ -->
+<div class="featured-strip" aria-hidden="true">
+  <div class="strip-track">
+    <span>Celebration Cakes<span class="strip-dot"></span></span>
+    <span>Burnt Cheesecakes<span class="strip-dot"></span></span>
+    <span>Handmade Pasta<span class="strip-dot"></span></span>
+    <span>French Toast<span class="strip-dot"></span></span>
+    <span>Focaccia Sandwiches<span class="strip-dot"></span></span>
+    <span>Sourdough Toasties<span class="strip-dot"></span></span>
+    <span>Croissants<span class="strip-dot"></span></span>
+    <span>Signature Drinks<span class="strip-dot"></span></span>
+    <span>Cookies &amp; Bars<span class="strip-dot"></span></span>
+    <!-- Duplicated for seamless scroll -->
+    <span>Celebration Cakes<span class="strip-dot"></span></span>
+    <span>Burnt Cheesecakes<span class="strip-dot"></span></span>
+    <span>Handmade Pasta<span class="strip-dot"></span></span>
+    <span>French Toast<span class="strip-dot"></span></span>
+    <span>Focaccia Sandwiches<span class="strip-dot"></span></span>
+    <span>Sourdough Toasties<span class="strip-dot"></span></span>
+    <span>Croissants<span class="strip-dot"></span></span>
+    <span>Signature Drinks<span class="strip-dot"></span></span>
+    <span>Cookies &amp; Bars<span class="strip-dot"></span></span>
+  </div>
+</div>
+
+<!-- ============================================================
+     MENU
+     ============================================================ -->
+<section class="menu-section" id="menu">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">Our Offerings</span>
+    <h2 class="section-title">The <em>Menu</em></h2>
+  </div>
+
+  <div class="category-filters reveal reveal-delay-1" id="categoryFilters"></div>
+
+  <div class="menu-grid" id="menuGrid">
+    <div class="menu-loading"><p>Loading menu…</p></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     GALLERY STRIPS
+     ============================================================ -->
+<div class="gallery-row" aria-hidden="true">
+  <div class="gallery-strip">
+    <div class="gallery-strip-inner" id="galleryInner1"></div>
+  </div>
+</div>
+<div class="gallery-row" aria-hidden="true">
+  <div class="gallery-strip">
+    <div class="gallery-strip-inner reverse" id="galleryInner2"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     ABOUT
+     ============================================================ -->
+<section class="about" id="about">
+  <div class="about-inner">
+
+    <div class="about-text reveal">
+      <h2>Baked with <em>passion</em>,<br>served with love</h2>
+      <p>What started in 2018 in our grandma's kitchen with a single blueberry cheesecake soon became something much bigger. From that very first cheesecake, our passion continued to grow. We began crafting buttery breads, delicate pastries, and homemade cakes, sharing them with friends, family, and eventually our community. Every recipe we create today carries a piece of those early memories: the warmth of home, the joy of gathering around the table, and the comfort of something freshly baked.</p>
+      <p>Today, our café proudly offers a variety of artisan pastries, handcrafted breads, and intricately made cakes, all baked with the same care and love that started it all. Whether you're stopping in for your morning pastry, celebrating a family occasion, or simply enjoying a quiet coffee break, we hope every visit feels like home.</p>
+      <div class="about-stat">
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Fresh Daily</div>
+        </div>
+        <div>
+          <div class="stat-num">30+</div>
+          <div class="stat-label">Menu Items</div>
+        </div>
+        <div>
+          <div class="stat-num">Local</div>
+          <div class="stat-label">Ingredients</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-visual reveal reveal-delay-2">
+      <div class="about-img-grid">
+        <div class="about-img"><img src="images/about-1.svg" alt="Our cakes" loading="lazy"></div>
+        <div class="about-img"><img src="images/about-2.svg" alt="Cheesecake" loading="lazy"></div>
+        <div class="about-img"><img src="images/about-3.svg" alt="Sourdough" loading="lazy"></div>
+        <div class="about-img"><img src="images/about-4.svg" alt="Tarts"     loading="lazy"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+     ============================================================ -->
+<section class="contact-section" id="contact">
+  <h2 class="reveal">Come <em>Visit Us</em></h2>
+  <p class="reveal reveal-delay-1">
+    Every morning we open our doors to the aroma of fresh bread and the warmth of community.
+    We'd love to see you.
+  </p>
+  <div class="contact-info reveal reveal-delay-2">
+    <div class="info-item">
+      <div class="info-label">Location</div>
+      <div class="info-val" id="contactLocation">Quezon City, Philippines</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Hours</div>
+      <div class="info-val" id="contactHours">Tue–Sun, 7am – 6pm</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Email</div>
+      <div class="info-val" id="contactEmail">hello@slicecraftbakery.com</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Instagram</div>
+      <div class="info-val" id="contactInstagram">@slicecraftbakery</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="footer-logo">
+    <img src="images/logo.png" class="footer-logo-img" alt="Slice Craft Bakery">
+  </div>
+  <div class="footer-copy">© 2025 Slice Craft Bakery. All rights reserved.</div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Slice Craft Bakery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --dark:       #1E1208;
+      --brown:      #3D2810;
+      --warm:       #5C3D1E;
+      --caramel:    #C8913A;
+      --gold:       #D4A84B;
+      --gold-light: #E8C070;
+      --cream:      #F5EDD6;
+      --light-cream:#FBF6EC;
+      --sand:       #C8B090;
+      --panel:      #ffffff;
+      --border:     #e8dcc8;
+      --text:       #1A0F00;
+      --muted:      #8a7055;
+      --success:    #2d7a4f;
+      --danger:     #b83232;
+      --danger-bg:  #fff0f0;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Josefin Sans', sans-serif;
+      background: var(--light-cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── LOGIN ── */
+    #loginScreen {
+      position: fixed; inset: 0;
+      background: var(--dark);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+      flex-direction: column; gap: 2rem;
+    }
+    #loginScreen.hidden { display: none; }
+    .login-logo { width: 160px; height: auto; opacity: 0.9; }
+    .login-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(212,168,75,0.2);
+      padding: 2.5rem 3rem;
+      width: 340px;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .login-box h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.4rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(212,168,75,0.25);
+      color: var(--cream);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      outline: none;
+    }
+    .login-box input:focus { border-color: var(--gold); }
+    .login-box input::placeholder { color: var(--sand); opacity: 0.5; }
+    .login-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--gold);
+      border: none;
+      color: var(--dark);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+    .login-btn:hover { background: var(--gold-light); }
+    .login-error {
+      font-size: 0.7rem;
+      color: #ff7070;
+      text-align: center;
+      letter-spacing: 0.1em;
+      display: none;
+    }
+    .login-error.show { display: block; }
+
+    /* ── ADMIN LAYOUT ── */
+    #adminApp { display: none; }
+    #adminApp.visible { display: block; }
+
+    .admin-header {
+      background: var(--dark);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(212,168,75,0.15);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .admin-header-left { display: flex; align-items: center; gap: 1.2rem; }
+    .admin-header img { height: 44px; width: auto; }
+    .admin-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+    .admin-title span {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--sand);
+      display: block;
+    }
+    .header-actions { display: flex; gap: 0.75rem; align-items: center; }
+    .btn-preview {
+      padding: 0.5rem 1.2rem;
+      border: 1px solid rgba(212,168,75,0.35);
+      background: transparent;
+      color: var(--sand);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-preview:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-logout {
+      padding: 0.5rem 1.2rem;
+      border: 1px solid rgba(184,50,50,0.35);
+      background: transparent;
+      color: #ff8888;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-logout:hover { border-color: #ff4444; color: #ff4444; }
+
+    /* ── TABS ── */
+    .admin-tabs {
+      background: var(--brown);
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      border-bottom: 1px solid rgba(212,168,75,0.1);
+    }
+    .admin-tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      padding: 0.9rem 1.6rem;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--sand);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { color: var(--gold-light); }
+    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* ── CONTENT PANELS ── */
+    .tab-panel { display: none; padding: 2rem; max-width: 1100px; margin: 0 auto; }
+    .tab-panel.active { display: block; }
+
+    /* ── SECTION HEADINGS ── */
+    .panel-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: var(--dark);
+      margin-bottom: 0.4rem;
+    }
+    .panel-heading em { font-style: italic; color: var(--caramel); }
+    .panel-sub {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 1.8rem;
+    }
+
+    /* ── SEARCH / FILTER ── */
+    .menu-controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.6rem 1rem;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      outline: none;
+      color: var(--text);
+    }
+    .search-input:focus { border-color: var(--caramel); }
+    .cat-select {
+      padding: 0.6rem 1rem;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.75rem;
+      color: var(--text);
+      outline: none;
+      cursor: pointer;
+    }
+    .cat-select:focus { border-color: var(--caramel); }
+
+    /* ── MENU TABLE ── */
+    .menu-table { width: 100%; border-collapse: collapse; }
+    .menu-table th {
+      text-align: left;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--light-cream);
+    }
+    .menu-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid #f0e8d8;
+      vertical-align: middle;
+      font-size: 0.8rem;
+    }
+    .menu-table tr:hover td { background: #fdf8f0; }
+    .item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--dark);
+      font-weight: 500;
+    }
+    .item-cat-badge {
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: var(--cream);
+      color: var(--warm);
+      padding: 0.2rem 0.5rem;
+      display: inline-block;
+      margin-top: 0.2rem;
+    }
+    .item-desc-cell {
+      font-size: 0.72rem;
+      color: var(--muted);
+      max-width: 340px;
+      line-height: 1.5;
+    }
+    .item-price-cell {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      color: var(--caramel);
+      white-space: pre-line;
+    }
+    .item-img-cell img {
+      width: 60px; height: 45px;
+      object-fit: cover;
+      display: block;
+    }
+    .item-img-cell .no-img {
+      width: 60px; height: 45px;
+      background: var(--light-cream);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.5rem; color: var(--sand); letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .modified-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: var(--caramel);
+      border-radius: 50%;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+      title: "Modified";
+    }
+    .btn-edit {
+      padding: 0.4rem 0.9rem;
+      background: var(--dark);
+      color: var(--gold);
+      border: 1px solid rgba(212,168,75,0.3);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-edit:hover { background: var(--brown); border-color: var(--gold); }
+    .btn-reset-item {
+      padding: 0.4rem 0.7rem;
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid rgba(184,50,50,0.25);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-left: 0.4rem;
+    }
+    .btn-reset-item:hover { background: var(--danger-bg); }
+
+    /* ── MODAL ── */
+    .modal-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(30,18,8,0.65);
+      z-index: 1000;
+      align-items: center; justify-content: center;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: #fff;
+      width: 560px;
+      max-width: 95vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(30,18,8,0.25);
+    }
+    .modal-header {
+      padding: 1.4rem 1.8rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; justify-content: space-between;
+      background: var(--dark);
+    }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--gold);
+    }
+    .modal-title small {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sand);
+      display: block;
+      margin-top: 0.2rem;
+    }
+    .modal-close {
+      background: none; border: none;
+      color: var(--sand); font-size: 1.4rem;
+      cursor: pointer; line-height: 1;
+      padding: 0; margin-left: 1rem;
+    }
+    .modal-close:hover { color: var(--gold); }
+    .modal-body { padding: 1.8rem; display: flex; flex-direction: column; gap: 1.3rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .form-input, .form-textarea {
+      padding: 0.65rem 0.9rem;
+      border: 1px solid var(--border);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      background: #fff;
+      width: 100%;
+    }
+    .form-input:focus, .form-textarea:focus { border-color: var(--caramel); }
+    .form-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+    .price-row { display: flex; gap: 0.8rem; }
+    .price-row .form-group { flex: 1; }
+    .price-hint {
+      font-size: 0.62rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      letter-spacing: 0.03em;
+    }
+
+    /* Image upload */
+    .img-upload-area {
+      border: 1.5px dashed var(--border);
+      padding: 1.2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .img-upload-area:hover { border-color: var(--caramel); background: #fdf8f0; }
+    .img-upload-area input[type=file] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .img-preview {
+      width: 100%; max-height: 180px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+    .img-preview.hidden { display: none; }
+    .upload-placeholder { pointer-events: none; }
+    .upload-icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
+    .upload-text {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    .upload-text strong { color: var(--caramel); }
+
+    .modal-footer {
+      padding: 1.2rem 1.8rem;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 0.8rem; justify-content: flex-end;
+    }
+    .btn-cancel {
+      padding: 0.65rem 1.5rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-cancel:hover { border-color: var(--warm); color: var(--warm); }
+    .btn-save {
+      padding: 0.65rem 1.8rem;
+      background: var(--gold);
+      border: none;
+      color: var(--dark);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-save:hover { background: var(--gold-light); }
+
+    /* ── CONTACT PANEL ── */
+    .contact-form { display: flex; flex-direction: column; gap: 1.3rem; max-width: 620px; }
+    .contact-form .form-group.wide { max-width: 100%; }
+    .save-contact-btn {
+      padding: 0.8rem 2.5rem;
+      background: var(--gold);
+      border: none;
+      color: var(--dark);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      align-self: flex-start;
+    }
+    .save-contact-btn:hover { background: var(--gold-light); }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      background: var(--dark);
+      color: var(--gold);
+      padding: 0.9rem 1.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      border-left: 3px solid var(--gold);
+      z-index: 9000;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+      pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: #5ab882; color: #5ab882; }
+    .toast.error   { border-color: #ff7070; color: #ff7070; }
+
+    /* ── RESET ALL ── */
+    .danger-zone {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      border: 1px solid rgba(184,50,50,0.2);
+      background: var(--danger-bg);
+    }
+    .danger-zone h3 {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--danger);
+      margin-bottom: 0.5rem;
+    }
+    .danger-zone p {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .btn-danger {
+      padding: 0.65rem 1.5rem;
+      background: var(--danger);
+      border: none;
+      color: #fff;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-danger:hover { opacity: 0.85; }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: flex; gap: 2rem; flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      padding: 1rem 1.5rem;
+      background: #fff;
+      border: 1px solid var(--border);
+    }
+    .stat { text-align: center; }
+    .stat-n {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      color: var(--caramel);
+      font-weight: 400;
+      line-height: 1;
+    }
+    .stat-l {
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     LOGIN
+     ============================================================ -->
+<div id="loginScreen">
+  <img src="images/logo.png" class="login-logo" alt="Slice Craft Bakery">
+  <div class="login-box">
+    <h2>Admin Access</h2>
+    <input type="text"     id="loginUser" placeholder="Username" autocomplete="username">
+    <input type="password" id="loginPass" placeholder="Password" autocomplete="current-password">
+    <button class="login-btn" onclick="doLogin()">Enter</button>
+    <div class="login-error" id="loginError">Incorrect credentials. Please try again.</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     ADMIN APP
+     ============================================================ -->
+<div id="adminApp">
+
+  <!-- Header -->
+  <div class="admin-header">
+    <div class="admin-header-left">
+      <img src="images/logo.png" alt="Logo">
+      <div class="admin-title">
+        Admin Panel
+        <span>Slice Craft Bakery</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <a href="index.html" target="_blank" class="btn-preview">View Site ↗</a>
+      <button class="btn-logout" onclick="doLogout()">Log Out</button>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="admin-tabs">
+    <button class="tab-btn active" data-tab="menu">Menu Items</button>
+    <button class="tab-btn" data-tab="contact">Visit Us Section</button>
+  </div>
+
+  <!-- ── MENU PANEL ── -->
+  <div class="tab-panel active" id="tab-menu">
+    <h2 class="panel-heading">Menu <em>Items</em></h2>
+    <p class="panel-sub">Edit prices, descriptions, and images for any menu item. Changes save instantly.</p>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat"><div class="stat-n" id="statTotal">0</div><div class="stat-l">Total Items</div></div>
+      <div class="stat"><div class="stat-n" id="statModified">0</div><div class="stat-l">Modified</div></div>
+      <div class="stat"><div class="stat-n" id="statCats">10</div><div class="stat-l">Categories</div></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="menu-controls">
+      <input class="search-input" id="searchInput" placeholder="Search items…" oninput="filterTable()">
+      <select class="cat-select" id="catFilter" onchange="filterTable()">
+        <option value="">All Categories</option>
+        <option value="cakes">Cakes</option>
+        <option value="cheesecakes">Cheesecakes</option>
+        <option value="drinks">Drinks</option>
+        <option value="cookies">Cookies</option>
+        <option value="bars">Bars</option>
+        <option value="pasta">Handmade Pasta</option>
+        <option value="frenchtoast">French Toast</option>
+        <option value="focaccia">Focaccia Sandwich</option>
+        <option value="toasties">Sourdough Toasties</option>
+        <option value="croissant">Croissant</option>
+      </select>
+    </div>
+
+    <table class="menu-table" id="menuTable">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Item</th>
+          <th>Description</th>
+          <th>Price(s)</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="menuTbody"></tbody>
+    </table>
+
+    <div class="danger-zone">
+      <h3>⚠ Reset All Menu Edits</h3>
+      <p>This will remove all your price, description, and image changes and restore the original menu. This cannot be undone.</p>
+      <button class="btn-danger" onclick="resetAllMenu()">Reset Menu to Original</button>
+    </div>
+  </div>
+
+  <!-- ── CONTACT PANEL ── -->
+  <div class="tab-panel" id="tab-contact">
+    <h2 class="panel-heading">Come <em>Visit Us</em></h2>
+    <p class="panel-sub">Edit the contact section that appears at the bottom of the homepage.</p>
+
+    <div class="contact-form">
+      <div class="form-group wide">
+        <label class="form-label">Section Heading (use &lt;em&gt; for italic gold text)</label>
+        <input class="form-input" id="cfHeading" value="Come <em>Visit Us</em>">
+      </div>
+      <div class="form-group wide">
+        <label class="form-label">Subtitle / Tagline</label>
+        <textarea class="form-textarea" id="cfSubtext" rows="3">Every morning we open our doors to the aroma of fresh bread and the warmth of community. We'd love to see you.</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Location</label>
+        <input class="form-input" id="cfLocation" placeholder="e.g. Quezon City, Philippines">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Hours</label>
+        <input class="form-input" id="cfHours" placeholder="e.g. Tue–Sun, 7am – 6pm">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" id="cfEmail" placeholder="e.g. hello@slicecraftbakery.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Instagram</label>
+        <input class="form-input" id="cfInstagram" placeholder="e.g. @slicecraftbakery">
+      </div>
+      <button class="save-contact-btn" onclick="saveContact()">Save Changes</button>
+
+      <div class="danger-zone" style="margin-top:1rem;">
+        <h3>⚠ Reset Contact Info</h3>
+        <p>Restore the original contact details.</p>
+        <button class="btn-danger" onclick="resetContact()">Reset to Original</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /adminApp -->
+
+<!-- ── EDIT MODAL ── -->
+<div class="modal-backdrop" id="editModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modalItemName">Edit Item</div>
+        <small id="modalItemCat"></small>
+      </div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Description -->
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-textarea" id="editDesc" rows="3"></textarea>
+      </div>
+
+      <!-- Price fields (single or multi rendered by JS) -->
+      <div id="priceFields"></div>
+
+      <!-- Image upload -->
+      <div class="form-group">
+        <label class="form-label">Item Image</label>
+        <div class="img-upload-area" id="imgUploadArea">
+          <input type="file" accept="image/*" id="imgFileInput" onchange="handleImageUpload(event)">
+          <img class="img-preview hidden" id="imgPreview" alt="Preview">
+          <div class="upload-placeholder" id="uploadPlaceholder">
+            <div class="upload-icon">🖼️</div>
+            <div class="upload-text">Click or drag to upload a photo<br><strong>JPG, PNG, WEBP</strong> recommended</div>
+          </div>
+        </div>
+        <p class="price-hint">Images are stored locally in your browser. For best results use a square or 4:3 image.</p>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save"   onclick="saveItem()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   ADMIN JAVASCRIPT
+   ============================================================ */
+
+// ── Credentials (change these!) ──
+const ADMIN_USER = 'sliceadmin';
+const ADMIN_PASS = 'craftbakery2025';
+
+// ── Storage keys ──
+const KEY_MENU    = 'scb_menu_overrides';
+const KEY_CONTACT = 'scb_contact';
+const KEY_SESSION = 'scb_admin_session';
+
+// ── State ──
+let currentItem = null;
+let pendingImg  = null;
+
+// ── Full menu data (must match main.js MENU array) ──
+const MENU = [
+  // CAKES
+  { cat:'cakes', name:'Chocolate Strawberry', desc:'Moist chocolate cake layers, dark chocolate mousse, dark chocolate ganache, strawberries.', sizes:['7"','10"'], prices:['₱1,200','₱2,100'] },
+  { cat:'cakes', name:'Carrot Pecan', desc:'Moist carrot pecan cake layers, caramel cream cheese frosting, caramel, roasted pecans.', sizes:['7"','10"'], prices:['₱1,470','₱2,780'] },
+  { cat:'cakes', name:'Red Velvet', desc:'Moist red velvet cake layers, cream cheese frosting, white chocolate ganache, strawberries.', sizes:['7"','10"'], prices:['₱1,950','₱3,700'] },
+  { cat:'cakes', name:'Ube Flan Entremet', desc:'Moist ube cake layers, homemade ube halaya, macapuno, cream cheese leche flan, ube frosting.', sizes:['7"','10"'], prices:['₱2,800','₱4,500'] },
+  { cat:'cakes', name:'Cabernet Berry Delight', desc:'Chocolate cookie crust, spiced chocolate cake layer, cream with mixed berry compote, dark chocolate ganache, mixed berries.', sizes:['7"','10"'], prices:['₱1,760','₱3,350'] },
+  { cat:'cakes', name:'Matcha Gateau', desc:'Matcha gateau layer, matcha white chocolate, matcha cream frosting, cream, buttered biscuits.', sizes:['7"','10"'], prices:['₱1,700','₱2,600'] },
+  { cat:'cakes', name:'Banana Hojicha & Black Sesame', desc:'Moist black sesame cake layers, fresh bananas, caramel, roasted cashews, hojicha cream frosting.', sizes:['7"','10"'], prices:['₱1,450','₱2,750'] },
+  { cat:'cakes', name:'Butterscotch Cashew', desc:'Caramel cake layers with cashews, butterscotch cream cheese frosting, caramel, roasted cashews.', sizes:['7"','10"'], prices:['₱1,350','₱2,500'] },
+  { cat:'cakes', name:'Dark Chocolate Berry Brownie', desc:'Dark chocolate brownie layers, strawberries with cream, dark chocolate frosting.', sizes:['7"','10"'], prices:['₱2,750','₱5,300'] },
+  { cat:'cakes', name:'Strawberry Cream Cake', desc:'Vanilla sponge cake layers, vanilla cream frosting, strawberry compote, fresh strawberries.', sizes:['7"','10"'], prices:['₱1,250','₱2,300'] },
+  { cat:'cakes', name:'Fruits & Fleurs', desc:'Vanilla tres leches cake layers, lemon curd, mango chunks, vanilla bean chantilly cream.', sizes:['7"','10"'], prices:['₱1,400','₱2,600'] },
+  { cat:'cakes', name:'Sweet Clay', desc:'Moist banana cake layers, espresso caramel sauce, espresso cream frosting, roasted macadamia.', sizes:['7"','10"'], prices:['₱2,600','₱4,980'] },
+  { cat:'cakes', name:'Dear Ruby', desc:'Moist earl grey cake layers, lemon curd, lychee slices, ruby chocolate frosting, edible rose petals.', sizes:['7"','10"'], prices:['₱2,550','₱4,860'] },
+  { cat:'cakes', name:'Ferrero Rocher', desc:'Brownie layers, hazelnut meringue, nutella frosting, dark chocolate ganache, roasted hazelnuts, Ferrero Rocher truffle.', sizes:['7"','10"'], prices:['₱5,270','₱6,900'] },
+  { cat:'cakes', name:'Chocolate Pistachio', desc:'Moist chocolate cake layers, pistachio buttercream, chocolate ganache, cream cheese flowers.', sizes:['7"','10"'], prices:['₱1,900','₱3,600'] },
+  { cat:'cakes', name:'Turtle Pecan', desc:'Moist chocolate cake layers, caramel with roasted pecans, salted caramel buttercream, dark chocolate ganache, pecan praline.', sizes:['7"','10"'], prices:['₱2,470','₱4,800'] },
+  { cat:'cakes', name:'Chocolate Kahlua', desc:'Moist chocolate cake layers, mocha cream frosting, Kahlua buttercream, chocolate sail, cacao nibs.', sizes:['7"','10"'], prices:['₱1,900','₱3,700'] },
+  { cat:'cakes', name:'Charlotte Tiramisu', desc:'Espresso-Amaretto soaked ladyfingers, cream, cocoa powder.', sizes:['7"','10"'], prices:['₱1,750','₱3,300'] },
+  { cat:'cakes', name:'Opera Cake', desc:'Paillete feuilletine, hazelnut praline, joconde sponge, coffee buttercream, dark chocolate cream & glaze.', sizes:['7"','10"'], prices:['₱1,900','₱3,100'] },
+  { cat:'cakes', name:'Vanilla Pistachio', desc:'Moist vanilla cake layers with pistachios, pistachio buttercream, roasted pistachios.', sizes:['7"','10"'], prices:['₱1,920','₱3,700'] },
+  { cat:'cakes', name:'Berry Bliss', desc:'Moist vanilla lemon cake layers, mixed berry compote, white chocolate cream frosting, mixed berries.', sizes:['7"','10"'], prices:['₱3,550','₱6,900'] },
+  { cat:'cakes', name:'Mango Cream', desc:'Moist vanilla cake layers, vanilla cream cheese frosting, fresh mango slices.', sizes:['7"','10"'], prices:['₱1,950','₱3,600'] },
+  { cat:'cakes', name:'Pistachio Chocolate Kataifi', desc:'Dark chocolate brownie layers, pistachio kataifi, dark chocolate frosting.', sizes:['7"','10"'], prices:['₱2,750','₱5,300'] },
+  { cat:'cakes', name:'Strawberry Tres Leches', desc:'Vanilla tres leches cake layers, lemon curd, fresh strawberries, vanilla bean chantilly cream.', sizes:['7"','10"'], prices:['₱2,500','₱4,200'] },
+  { cat:'cakes', name:'Hokey Pokey', desc:'Moist banana-biscoff cake layers, caramel espresso cream, dark chocolate frosting, hokey pokey bits.', sizes:['7"','10"'], prices:['₱2,800','₱5,400'] },
+  { cat:'cakes', name:'Angel Food Cake', desc:'Almond sponge cake, cream, fresh strawberries.', sizes:['7"','10"'], prices:['₱1,900','₱3,600'] },
+  // CHEESECAKES
+  { cat:'cheesecakes', name:'Bibingka Basque Burnt Cheesecake', desc:'Coconut cheesecake, salted egg, desiccated coconut, Gouda cheese.', sizes:['7"','10"'], prices:['₱1,960','₱3,400'] },
+  { cat:'cheesecakes', name:'Ube Fleur Vanille', desc:'Graham cracker crust, ube cheesecake, white chocolate coconut cream.', sizes:['7"','10"'], prices:['₱2,150','₱3,700'] },
+  { cat:'cheesecakes', name:'Oreo Cheesecake Brownie Trifle', desc:'Dark chocolate brownie crust, oreo cheesecake, oreo cream filling, dark chocolate frosting.', sizes:['7"','10"'], prices:['₱1,750','₱3,280'] },
+  { cat:'cheesecakes', name:'Baklava', desc:'Walnut-pistachio baklava crust, spiced cheesecake, baklava topping with simple syrup.', sizes:['7"','10"'], prices:['₱2,530','₱4,900'] },
+  { cat:'cheesecakes', name:'Strawberries & Cream Basque', desc:'Vanilla-lemon cheesecake, cream, fresh strawberries.', sizes:['7"','10"'], prices:['₱1,970','₱3,750'] },
+  { cat:'cheesecakes', name:'Mixed Berries', desc:'Dark brownie crust, mixed berries cheesecake, white chocolate cream, topped with mixed berries.', sizes:['7"','10"'], prices:['₱3,470','₱6,780'] },
+  { cat:'cheesecakes', name:'Cacao & Coffee', desc:'Cacao nibs-coffee crust, dark chocolate cheesecake, cocoa powder, Maldon salt.', sizes:['7"','10"'], prices:['₱1,800','₱3,400'] },
+  { cat:'cheesecakes', name:'Vanilla Bean Pecan', desc:'Graham-pecan crust, vanilla cheesecake, vanilla cream, roasted pecans.', sizes:['7"','10"'], prices:['₱2,000','₱3,500'] },
+  { cat:'cheesecakes', name:'Pistachio Basque Burnt Cheesecake', desc:'Pistachio cheesecake, pistachio kataifi, dark chocolate ganache.', sizes:['7"','10"'], prices:['₱3,320','₱6,450'] },
+  { cat:'cheesecakes', name:'Blueberry Lemon Cake', desc:'Graham-coconut crust, blueberry cheesecake, lemon curd, blueberries.', sizes:['7"','10"'], prices:['₱2,470','₱4,300'] },
+  // DRINKS
+  { cat:'drinks', name:'Long Black', desc:'Espresso-based drink.', sizes:['Hot','Iced'], prices:['₱125','₱130'] },
+  { cat:'drinks', name:'Americano', desc:'Espresso-based drink.', sizes:['Hot','Iced'], prices:['₱125','₱130'] },
+  { cat:'drinks', name:'Café Latte', desc:'Espresso-based drink.', sizes:['Hot','Iced'], prices:['₱150','₱160'] },
+  { cat:'drinks', name:'Cappuccino', desc:'Espresso-based drink.', sizes:['Hot','Iced'], prices:['₱150','₱160'] },
+  { cat:'drinks', name:'Caramel Macchiato', desc:'Espresso-based drink.', sizes:['Hot','Iced'], prices:['₱170','₱180'] },
+  { cat:'drinks', name:'Café Mocha', desc:'Espresso-based drink.', sizes:['Hot'], prices:['₱170'] },
+  { cat:'drinks', name:'White Mocha', desc:'Espresso-based drink.', sizes:['Hot'], prices:['₱170'] },
+  { cat:'drinks', name:'Almond Coffee Jelly', desc:'Signature drink.', sizes:['Iced'], prices:['₱160'] },
+  { cat:'drinks', name:'Dark Chocolate Breve', desc:'Signature drink.', sizes:['Iced'], prices:['₱180'] },
+  { cat:'drinks', name:'Brown Sugar Oatmilk', desc:'Signature drink.', sizes:['Iced'], prices:['₱230'] },
+  { cat:'drinks', name:'Tiramisu Latte', desc:'Signature drink.', sizes:['Iced'], prices:['₱220'] },
+  { cat:'drinks', name:'White Mocha Breve', desc:'Signature drink.', sizes:['Iced'], prices:['₱185'] },
+  { cat:'drinks', name:'Sea Salt Latte', desc:'Signature drink.', sizes:['Hot','Iced'], prices:['₱170','₱180'] },
+  { cat:'drinks', name:'Salted Brown Butter', desc:'Signature drink.', sizes:['Hot','Iced'], prices:['₱250','₱240'] },
+  { cat:'drinks', name:'Miso Caramel', desc:'Signature drink.', sizes:['Hot','Iced'], prices:['₱200','₱190'] },
+  { cat:'drinks', name:'Salted Honey Oat', desc:'Signature drink.', sizes:['Hot','Iced'], prices:['₱200','₱190'] },
+  { cat:'drinks', name:'Strawberry Matcha Latte', desc:'Tea-based drink.', sizes:['Iced'], prices:['₱200'] },
+  { cat:'drinks', name:'Matcha Latte', desc:'Tea-based drink.', sizes:['Hot','Iced'], prices:['₱210','₱200'] },
+  { cat:'drinks', name:'Maple Bourbon Vanilla Hojicha Latte', desc:'Tea-based drink.', sizes:['Hot','Iced'], prices:['₱250','₱250'] },
+  { cat:'drinks', name:'Peach & Dragon Fruit', desc:'Refresher.', sizes:['Iced'], prices:['₱130'] },
+  { cat:'drinks', name:'Mango & Passion Fruit', desc:'Refresher.', sizes:['Iced'], prices:['₱130'] },
+  { cat:'drinks', name:'Berry Lychee', desc:'Refresher.', sizes:['Iced'], prices:['₱130'] },
+  { cat:'drinks', name:'Pink Guava Chia', desc:'Refresher.', sizes:['Iced'], prices:['₱130'] },
+  { cat:'drinks', name:'Mango Cranberry', desc:'Refresher.', sizes:['Iced'], prices:['₱130'] },
+  { cat:'drinks', name:'Citrus Pomegranate', desc:'Refresher.', sizes:['Iced'], prices:['₱130'] },
+  { cat:'drinks', name:'Strawberry Latte', desc:'Refresher.', sizes:['Iced'], prices:['₱150'] },
+  // COOKIES
+  { cat:'cookies', name:'Chocolate Chip with Sea Salt', desc:'Freshly baked cookie.', price:'₱110' },
+  { cat:'cookies', name:'Matcha Ruby', desc:'Freshly baked cookie.', price:'₱85' },
+  { cat:'cookies', name:'Biscoff KitKat', desc:'Freshly baked cookie.', price:'₱80' },
+  { cat:'cookies', name:"S'mores", desc:'Freshly baked cookie.', price:'₱50' },
+  { cat:'cookies', name:'Cowboy', desc:'Freshly baked cookie.', price:'₱85' },
+  { cat:'cookies', name:'Dark Chocolate Chip', desc:'Freshly baked cookie.', price:'₱60' },
+  { cat:'cookies', name:'Oreo', desc:'Freshly baked cookie.', price:'₱75' },
+  { cat:'cookies', name:'Red Velvet', desc:'Freshly baked cookie.', price:'₱75' },
+  { cat:'cookies', name:'Walnut Chocolate Chip', desc:'Freshly baked cookie.', price:'₱65' },
+  { cat:'cookies', name:'Pistachio Chocolate', desc:'Freshly baked cookie.', price:'₱130' },
+  { cat:'cookies', name:'Nutella', desc:'Freshly baked cookie.', price:'₱75' },
+  { cat:'cookies', name:'Salted Caramel', desc:'Freshly baked cookie.', price:'₱70' },
+  // BARS
+  { cat:'bars', name:'Cookie Butter Blondie', desc:'Handcrafted bar.', price:'₱65' },
+  { cat:'bars', name:'Oatmeal Fudge', desc:'Handcrafted bar.', price:'₱75' },
+  { cat:'bars', name:'Caramel Pecan Blondie', desc:'Handcrafted bar.', price:'₱90' },
+  { cat:'bars', name:'Ferrero Cheesecake Brownie', desc:'Handcrafted bar.', price:'₱120' },
+  { cat:'bars', name:'Pistachio Dark Chocolate Blondie', desc:'Handcrafted bar.', price:'₱110' },
+  { cat:'bars', name:'Nutty Brownie', desc:'Handcrafted bar.', price:'₱80' },
+  { cat:'bars', name:'Classic Brownie', desc:'Handcrafted bar.', price:'₱65' },
+  { cat:'bars', name:'Biscoff Brownie', desc:'Handcrafted bar.', price:'₱85' },
+  // PASTA
+  { cat:'pasta', name:'Beef Ragù Pappardelle', desc:'Braised beef, tomato and red wine sauce, aromatic vegetables, pappardelle.', price:'₱480' },
+  { cat:'pasta', name:'Shrimp Tagliolini', desc:'Robust tomato sauce, olives, capers, tagliolini.', price:'₱350' },
+  { cat:'pasta', name:'Classic Carbonara', desc:'Guanciale, pecorino romano, eggs, fettuccine.', price:'₱560' },
+  { cat:'pasta', name:'Truffle Mushroom', desc:'Porcini & Shitake mushrooms, truffle cream, tagliatelle, straciatella.', price:'₱500' },
+  { cat:'pasta', name:'Pesto Cavatelli', desc:'Homemade basil pesto, guanciale, roasted pistachios, cavatelli, straciatella.', price:'₱480' },
+  { cat:'pasta', name:'Three-Cheese Ravioli', desc:'Ricotta, fontal, parmigiano reggiano ravioli in Pomodoro sauce.', price:'₱530' },
+  { cat:'pasta', name:'Lasagna', desc:'Beef marinara sauce, Mornay sauce, herbed cheese layers, mozzarella.', price:'₱650' },
+  // FRENCH TOAST
+  { cat:'frenchtoast', name:'Banoffee', desc:'Shokupan bread, Madagascar vanilla-coffee cream, banana butter, dark chocolate, Maldon salt, caramel.', price:'₱430' },
+  { cat:'frenchtoast', name:'Chocolate Espresso Pecan', desc:'Shokupan bread, Madagascar vanilla-coffee cream, dark chocolate butter, Maldon salt, caramel, pecans.', price:'₱490' },
+  { cat:'frenchtoast', name:'Chocolate Pistachio', desc:'Shokupan bread, Madagascar vanilla cream, pistachio butter, Maldon salt, dark chocolate filling, roasted pistachios.', price:'₱500' },
+  { cat:'frenchtoast', name:'Mixed Berries', desc:'Shokupan bread, Madagascar vanilla cream, mixed berry butter, berry compote, Maldon salt.', price:'₱490' },
+  // FOCACCIA
+  { cat:'focaccia', name:'Mortadella', desc:'Focaccia bread, Mortadella, roasted pistachios, straciatella, hot honey.', price:'₱710' },
+  { cat:'focaccia', name:'Smoked Salmon', desc:'Focaccia with everything bagel seasoning, smoked salmon, capers, dill, onion, tomato, cream cheese.', price:'₱620' },
+  { cat:'focaccia', name:'Prosciutto Arugula', desc:'Focaccia bread, prosciutto, straciatella, truffle cream, arugula microgreens.', price:'₱685' },
+  // TOASTIES
+  { cat:'toasties', name:'Grilled Cheese', desc:'Sharp orange cheddar, mozzarella, sourdough bread.', price:'₱395' },
+  { cat:'toasties', name:'Tuna Melt (Classic/Spicy)', desc:'Herbed tuna (choice of classic or spicy), mozzarella, sourdough bread.', price:'₱345' },
+  { cat:'toasties', name:'Ham & Cheese', desc:'White cheddar, sharp orange cheddar, ham, mayochup.', price:'₱520' },
+  { cat:'toasties', name:'Truffle Mushroom', desc:'Herbed Shitake mushrooms, sharp orange cheddar, mozzarella, truffle paste.', price:'₱460' },
+  { cat:'toasties', name:'Pesto Bacon', desc:'Homemade pesto, bacon, mozzarella.', price:'₱390' },
+  // CROISSANT
+  { cat:'croissant', name:'Butter', desc:'Classic butter croissant.', price:'₱110' },
+  { cat:'croissant', name:'Twice-Baked Almond', desc:'Rich almond-filled croissant, twice baked.', price:'₱210' },
+  { cat:'croissant', name:'Coffee Chocolate Pecan', desc:'Croissant with coffee, chocolate, and roasted pecans.', price:'₱250' },
+  { cat:'croissant', name:'Le Bourbon Brûlée', desc:'Brûléed croissant with bourbon notes.', price:'₱110' },
+  { cat:'croissant', name:'Pain au Chocolat', desc:'Flaky pastry with dark chocolate filling.', price:'₱165' },
+  { cat:'croissant', name:'Cardamom Buns', desc:'Soft cardamom-spiced buns.', price:'₱175' },
+  { cat:'croissant', name:'Pistachio Chocolate Kataifi', desc:'Croissant with pistachio kataifi and dark chocolate.', price:'₱275' },
+];
+
+const CAT_LABELS = {
+  cakes:'Cakes', cheesecakes:'Cheesecakes', drinks:'Drinks',
+  cookies:'Cookies', bars:'Bars', pasta:'Handmade Pasta',
+  frenchtoast:'French Toast', focaccia:'Focaccia Sandwich',
+  toasties:'Sourdough Toasties', croissant:'Croissant'
+};
+
+// ── Login ──
+function doLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    sessionStorage.setItem(KEY_SESSION, '1');
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('adminApp').classList.add('visible');
+    initAdmin();
+  } else {
+    document.getElementById('loginError').classList.add('show');
+    document.getElementById('loginPass').value = '';
+  }
+}
+document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+document.getElementById('loginUser').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('loginPass').focus(); });
+
+function doLogout() {
+  sessionStorage.removeItem(KEY_SESSION);
+  location.reload();
+}
+
+// Auto-login if session active
+if (sessionStorage.getItem(KEY_SESSION)) {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('adminApp').classList.add('visible');
+}
+
+// ── Tabs ──
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ── Load overrides ──
+function loadOverrides() {
+  try { return JSON.parse(localStorage.getItem(KEY_MENU) || '{}'); }
+  catch(e) { return {}; }
+}
+function saveOverrides(o) { localStorage.setItem(KEY_MENU, JSON.stringify(o)); }
+
+// ── Init admin ──
+function initAdmin() {
+  renderTable(MENU);
+  loadContactForm();
+  updateStats();
+}
+
+// ── Stats ──
+function updateStats() {
+  const o = loadOverrides();
+  document.getElementById('statTotal').textContent = MENU.length;
+  document.getElementById('statModified').textContent = Object.keys(o).length;
+}
+
+// ── Table ──
+function renderTable(items) {
+  const o     = loadOverrides();
+  const tbody = document.getElementById('menuTbody');
+  tbody.innerHTML = items.map(item => {
+    const key  = item.cat + '|' + item.name;
+    const ov   = o[key] || {};
+    const mod  = Object.keys(ov).length > 0;
+    const desc = ov.desc  || item.desc;
+    const img  = ov.img   || null;
+
+    let priceDisplay = '';
+    if (item.sizes) {
+      const px = ov.prices ? JSON.parse(ov.prices) : item.prices;
+      priceDisplay = item.sizes.map((s,i) => `${s}: ${px[i]}`).join('\n');
+    } else {
+      priceDisplay = ov.price || item.price;
+    }
+
+    const imgCell = img
+      ? `<img src="${img}" style="width:60px;height:45px;object-fit:cover;display:block;" alt="">`
+      : `<div class="no-img" style="width:60px;height:45px;background:#f5edd6;display:flex;align-items:center;justify-content:center;font-size:0.5rem;color:#c8b090;letter-spacing:0.1em;">No img</div>`;
+
+    return `<tr data-key="${key}">
+      <td>${imgCell}</td>
+      <td>
+        <div class="item-name">${item.name}${mod ? '<span class="modified-dot" title="Modified"></span>' : ''}</div>
+        <div class="item-cat-badge">${CAT_LABELS[item.cat] || item.cat}</div>
+      </td>
+      <td class="item-desc-cell">${desc}</td>
+      <td class="item-price-cell">${priceDisplay}</td>
+      <td>
+        <button class="btn-edit" onclick='openEdit(${JSON.stringify(key)})'>Edit</button>${mod ? `<button class="btn-reset-item" onclick='resetItem(${JSON.stringify(key)})' title="Reset to original">↺</button>` : ''}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filterTable() {
+  const q   = document.getElementById('searchInput').value.toLowerCase();
+  const cat = document.getElementById('catFilter').value;
+  const filtered = MENU.filter(i =>
+    (!cat || i.cat === cat) &&
+    (!q   || i.name.toLowerCase().includes(q) || i.desc.toLowerCase().includes(q))
+  );
+  renderTable(filtered);
+}
+
+// ── Modal ──
+function openEdit(key) {
+  const [cat, name] = key.split('|');
+  currentItem = MENU.find(i => i.cat === cat && i.name === name);
+  if (!currentItem) return;
+  pendingImg = null;
+
+  const o  = loadOverrides();
+  const ov = o[key] || {};
+
+  document.getElementById('modalItemName').textContent = currentItem.name;
+  document.getElementById('modalItemCat').textContent  = CAT_LABELS[currentItem.cat] || currentItem.cat;
+  document.getElementById('editDesc').value = ov.desc || currentItem.desc;
+
+  // Price fields
+  const pf = document.getElementById('priceFields');
+  if (currentItem.sizes) {
+    const px = ov.prices ? JSON.parse(ov.prices) : currentItem.prices;
+    pf.innerHTML = `<div class="form-group"><label class="form-label">Prices</label><div class="price-row">${
+      currentItem.sizes.map((s,i) => `
+        <div class="form-group">
+          <label class="form-label">${s}</label>
+          <input class="form-input" id="editPrice${i}" value="${px[i]}" placeholder="e.g. ₱1,200">
+        </div>`).join('')
+    }</div><p class="price-hint">Include the ₱ symbol and commas, e.g. ₱1,200</p></div>`;
+  } else {
+    const px = ov.price || currentItem.price;
+    pf.innerHTML = `<div class="form-group"><label class="form-label">Price</label>
+      <input class="form-input" id="editPrice0" value="${px}" placeholder="e.g. ₱480">
+      <p class="price-hint">Include the ₱ symbol, e.g. ₱480</p></div>`;
+  }
+
+  // Image preview
+  const preview = document.getElementById('imgPreview');
+  const placeholder = document.getElementById('uploadPlaceholder');
+  if (ov.img) {
+    preview.src = ov.img;
+    preview.classList.remove('hidden');
+    placeholder.style.display = 'none';
+  } else {
+    preview.src = '';
+    preview.classList.add('hidden');
+    placeholder.style.display = 'block';
+  }
+  document.getElementById('imgFileInput').value = '';
+
+  document.getElementById('editModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('editModal').classList.remove('open');
+  currentItem = null;
+  pendingImg  = null;
+}
+
+function handleImageUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 3 * 1024 * 1024) { showToast('Image must be under 3MB', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = ev => {
+    pendingImg = ev.target.result;
+    const preview = document.getElementById('imgPreview');
+    preview.src = pendingImg;
+    preview.classList.remove('hidden');
+    document.getElementById('uploadPlaceholder').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveItem() {
+  if (!currentItem) return;
+  const key = currentItem.cat + '|' + currentItem.name;
+  const o   = loadOverrides();
+  const ov  = o[key] || {};
+
+  ov.desc = document.getElementById('editDesc').value.trim();
+
+  if (currentItem.sizes) {
+    ov.prices = JSON.stringify(currentItem.sizes.map((_,i) => document.getElementById('editPrice'+i).value.trim()));
+  } else {
+    ov.price = document.getElementById('editPrice0').value.trim();
+  }
+
+  if (pendingImg) ov.img = pendingImg;
+
+  o[key] = ov;
+  saveOverrides(o);
+  updateStats();
+  filterTable();
+  closeModal();
+  showToast('Changes saved!', 'success');
+}
+
+function resetItem(key) {
+  if (!confirm('Reset this item to its original values?')) return;
+  const o = loadOverrides();
+  delete o[key];
+  saveOverrides(o);
+  updateStats();
+  filterTable();
+  showToast('Item reset to original', '');
+}
+
+function resetAllMenu() {
+  if (!confirm('Reset ALL menu items to their original values? This cannot be undone.')) return;
+  localStorage.removeItem(KEY_MENU);
+  updateStats();
+  filterTable();
+  showToast('All menu edits cleared', '');
+}
+
+// ── Contact ──
+const CONTACT_DEFAULTS = {
+  heading:   'Come <em>Visit Us</em>',
+  subtext:   "Every morning we open our doors to the aroma of fresh bread and the warmth of community. We'd love to see you.",
+  location:  'Quezon City, Philippines',
+  hours:     'Tue–Sun, 7am – 6pm',
+  email:     'hello@slicecraftbakery.com',
+  instagram: '@slicecraftbakery',
+};
+
+function loadContactForm() {
+  let c;
+  try { c = JSON.parse(localStorage.getItem(KEY_CONTACT) || '{}'); } catch(e) { c = {}; }
+  document.getElementById('cfHeading').value   = c.heading   || CONTACT_DEFAULTS.heading;
+  document.getElementById('cfSubtext').value   = c.subtext   || CONTACT_DEFAULTS.subtext;
+  document.getElementById('cfLocation').value  = c.location  || CONTACT_DEFAULTS.location;
+  document.getElementById('cfHours').value     = c.hours     || CONTACT_DEFAULTS.hours;
+  document.getElementById('cfEmail').value     = c.email     || CONTACT_DEFAULTS.email;
+  document.getElementById('cfInstagram').value = c.instagram || CONTACT_DEFAULTS.instagram;
+}
+
+function saveContact() {
+  const c = {
+    heading:   document.getElementById('cfHeading').value.trim(),
+    subtext:   document.getElementById('cfSubtext').value.trim(),
+    location:  document.getElementById('cfLocation').value.trim(),
+    hours:     document.getElementById('cfHours').value.trim(),
+    email:     document.getElementById('cfEmail').value.trim(),
+    instagram: document.getElementById('cfInstagram').value.trim(),
+  };
+  localStorage.setItem(KEY_CONTACT, JSON.stringify(c));
+  showToast('Contact section saved!', 'success');
+}
+
+function resetContact() {
+  if (!confirm('Reset contact info to original values?')) return;
+  localStorage.removeItem(KEY_CONTACT);
+  loadContactForm();
+  showToast('Contact reset to original', '');
+}
+
+// ── Toast ──
+let toastTimer;
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── Close modal on backdrop click ──
+document.getElementById('editModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('editModal')) closeModal();
+});
+
+// ── Auto-init if session active ──
+if (sessionStorage.getItem(KEY_SESSION)) initAdmin();
+</script>
+</body>
+</html>
