@@ -8,566 +8,186 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --dark:       #1E1208;
-      --brown:      #3D2810;
-      --warm:       #5C3D1E;
-      --caramel:    #C8913A;
-      --gold:       #D4A84B;
-      --gold-light: #E8C070;
-      --cream:      #F5EDD6;
-      --light-cream:#FBF6EC;
-      --sand:       #C8B090;
-      --panel:      #ffffff;
-      --border:     #e8dcc8;
-      --text:       #1A0F00;
-      --muted:      #8a7055;
-      --success:    #2d7a4f;
-      --danger:     #b83232;
-      --danger-bg:  #fff0f0;
+      --dark:#1E1208; --brown:#3D2810; --warm:#5C3D1E; --caramel:#C8913A;
+      --gold:#D4A84B; --gold-light:#E8C070; --cream:#F5EDD6; --light-cream:#FBF6EC;
+      --sand:#C8B090; --panel:#ffffff; --border:#e8dcc8; --text:#1A0F00;
+      --muted:#8a7055; --success:#2d7a4f; --danger:#b83232; --danger-bg:#fff0f0;
     }
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Josefin Sans', sans-serif;
-      background: var(--light-cream);
-      color: var(--text);
-      min-height: 100vh;
-    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Josefin Sans',sans-serif;background:var(--light-cream);color:var(--text);min-height:100vh;}
 
-    /* ── LOGIN ── */
-    #loginScreen {
-      position: fixed; inset: 0;
-      background: var(--dark);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999;
-      flex-direction: column; gap: 2rem;
-    }
-    #loginScreen.hidden { display: none; }
-    .login-logo { width: 160px; height: auto; opacity: 0.9; }
-    .login-box {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(212,168,75,0.2);
-      padding: 2.5rem 3rem;
-      width: 340px;
-      display: flex; flex-direction: column; gap: 1rem;
-    }
-    .login-box h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 1.4rem;
-      color: var(--gold);
-      letter-spacing: 0.15em;
-      text-align: center;
-      margin-bottom: 0.5rem;
-    }
-    .login-box input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(212,168,75,0.25);
-      color: var(--cream);
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-      outline: none;
-    }
-    .login-box input:focus { border-color: var(--gold); }
-    .login-box input::placeholder { color: var(--sand); opacity: 0.5; }
-    .login-btn {
-      width: 100%;
-      padding: 0.85rem;
-      background: var(--gold);
-      border: none;
-      color: var(--dark);
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s;
-      margin-top: 0.5rem;
-    }
-    .login-btn:hover { background: var(--gold-light); }
-    .login-error {
-      font-size: 0.7rem;
-      color: #ff7070;
-      text-align: center;
-      letter-spacing: 0.1em;
-      display: none;
-    }
-    .login-error.show { display: block; }
+    /* LOGIN */
+    #loginScreen{position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:2rem;}
+    #loginScreen.hidden{display:none;}
+    .login-logo{width:160px;height:auto;opacity:.9;}
+    .login-box{background:rgba(255,255,255,.04);border:1px solid rgba(212,168,75,.2);padding:2.5rem 3rem;width:340px;display:flex;flex-direction:column;gap:1rem;}
+    .login-box h2{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:1.4rem;color:var(--gold);letter-spacing:.15em;text-align:center;margin-bottom:.5rem;}
+    .login-box input{width:100%;padding:.75rem 1rem;background:rgba(255,255,255,.06);border:1px solid rgba(212,168,75,.25);color:var(--cream);font-family:'Josefin Sans',sans-serif;font-size:.85rem;letter-spacing:.05em;outline:none;}
+    .login-box input:focus{border-color:var(--gold);}
+    .login-box input::placeholder{color:var(--sand);opacity:.5;}
+    .login-btn{width:100%;padding:.85rem;background:var(--gold);border:none;color:var(--dark);font-family:'Josefin Sans',sans-serif;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:background .2s;margin-top:.5rem;}
+    .login-btn:hover{background:var(--gold-light);}
+    .login-error{font-size:.7rem;color:#ff7070;text-align:center;letter-spacing:.1em;display:none;}
+    .login-error.show{display:block;}
 
-    /* ── ADMIN LAYOUT ── */
-    #adminApp { display: none; }
-    #adminApp.visible { display: block; }
+    /* GITHUB SETUP BANNER */
+    #githubBanner{background:linear-gradient(135deg,#1a2a1a,#2a3a2a);border:1px solid rgba(90,184,130,.25);padding:1.2rem 1.8rem;margin:1.5rem;display:flex;align-items:flex-start;gap:1.2rem;border-radius:2px;}
+    #githubBanner.hidden{display:none;}
+    .banner-icon{font-size:1.5rem;flex-shrink:0;margin-top:.1rem;}
+    .banner-text h3{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:#5ab882;margin-bottom:.4rem;}
+    .banner-text p{font-size:.72rem;color:#a0c8a8;line-height:1.7;}
+    .banner-text a{color:#5ab882;}
+    .banner-setup-btn{margin-top:.8rem;padding:.5rem 1.2rem;background:#5ab882;border:none;color:#fff;font-family:'Josefin Sans',sans-serif;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;}
+    .banner-setup-btn:hover{background:#4aa872;}
 
-    .admin-header {
-      background: var(--dark);
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(212,168,75,0.15);
-      position: sticky; top: 0; z-index: 100;
-    }
-    .admin-header-left { display: flex; align-items: center; gap: 1.2rem; }
-    .admin-header img { height: 44px; width: auto; }
-    .admin-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      color: var(--gold);
-      letter-spacing: 0.1em;
-    }
-    .admin-title span {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--sand);
-      display: block;
-    }
-    .header-actions { display: flex; gap: 0.75rem; align-items: center; }
-    .btn-preview {
-      padding: 0.5rem 1.2rem;
-      border: 1px solid rgba(212,168,75,0.35);
-      background: transparent;
-      color: var(--sand);
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-    .btn-preview:hover { border-color: var(--gold); color: var(--gold); }
-    .btn-logout {
-      padding: 0.5rem 1.2rem;
-      border: 1px solid rgba(184,50,50,0.35);
-      background: transparent;
-      color: #ff8888;
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-logout:hover { border-color: #ff4444; color: #ff4444; }
+    /* ADMIN LAYOUT */
+    #adminApp{display:none;}
+    #adminApp.visible{display:block;}
+    .admin-header{background:var(--dark);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(212,168,75,.15);position:sticky;top:0;z-index:100;}
+    .admin-header-left{display:flex;align-items:center;gap:1.2rem;}
+    .admin-header img{height:44px;width:auto;}
+    .admin-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);letter-spacing:.1em;}
+    .admin-title span{font-family:'Josefin Sans',sans-serif;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--sand);display:block;}
+    .header-actions{display:flex;gap:.75rem;align-items:center;}
+    .github-status{font-size:.6rem;letter-spacing:.1em;padding:.4rem .8rem;border:1px solid;display:flex;align-items:center;gap:.4rem;}
+    .github-status.connected{border-color:rgba(90,184,130,.4);color:#5ab882;}
+    .github-status.disconnected{border-color:rgba(212,168,75,.3);color:var(--sand);cursor:pointer;}
+    .github-status.disconnected:hover{border-color:var(--gold);color:var(--gold);}
+    .btn-preview{padding:.5rem 1.2rem;border:1px solid rgba(212,168,75,.35);background:transparent;color:var(--sand);font-family:'Josefin Sans',sans-serif;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all .2s;}
+    .btn-preview:hover{border-color:var(--gold);color:var(--gold);}
+    .btn-logout{padding:.5rem 1.2rem;border:1px solid rgba(184,50,50,.35);background:transparent;color:#ff8888;font-family:'Josefin Sans',sans-serif;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+    .btn-logout:hover{border-color:#ff4444;color:#ff4444;}
 
-    /* ── TABS ── */
-    .admin-tabs {
-      background: var(--brown);
-      display: flex;
-      gap: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
-      border-bottom: 1px solid rgba(212,168,75,0.1);
-    }
-    .admin-tabs::-webkit-scrollbar { display: none; }
-    .tab-btn {
-      padding: 0.9rem 1.6rem;
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid transparent;
-      color: var(--sand);
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-    .tab-btn:hover { color: var(--gold-light); }
-    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+    /* TABS */
+    .admin-tabs{background:var(--brown);display:flex;gap:0;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid rgba(212,168,75,.1);}
+    .admin-tabs::-webkit-scrollbar{display:none;}
+    .tab-btn{padding:.9rem 1.6rem;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--sand);font-family:'Josefin Sans',sans-serif;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:all .2s;}
+    .tab-btn:hover{color:var(--gold-light);}
+    .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
 
-    /* ── CONTENT PANELS ── */
-    .tab-panel { display: none; padding: 2rem; max-width: 1100px; margin: 0 auto; }
-    .tab-panel.active { display: block; }
+    /* PANELS */
+    .tab-panel{display:none;padding:2rem;max-width:1100px;margin:0 auto;}
+    .tab-panel.active{display:block;}
+    .panel-heading{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:400;color:var(--dark);margin-bottom:.4rem;}
+    .panel-heading em{font-style:italic;color:var(--caramel);}
+    .panel-sub{font-size:.7rem;letter-spacing:.1em;color:var(--muted);margin-bottom:1.8rem;}
 
-    /* ── SECTION HEADINGS ── */
-    .panel-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem;
-      font-weight: 400;
-      color: var(--dark);
-      margin-bottom: 0.4rem;
-    }
-    .panel-heading em { font-style: italic; color: var(--caramel); }
-    .panel-sub {
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin-bottom: 1.8rem;
-    }
+    /* STATS */
+    .stats-bar{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:1.5rem;padding:1rem 1.5rem;background:#fff;border:1px solid var(--border);}
+    .stat{text-align:center;}
+    .stat-n{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--caramel);font-weight:400;line-height:1;}
+    .stat-l{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:.2rem;}
 
-    /* ── SEARCH / FILTER ── */
-    .menu-controls {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-    .search-input {
-      flex: 1;
-      min-width: 200px;
-      padding: 0.6rem 1rem;
-      border: 1px solid var(--border);
-      background: #fff;
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-      outline: none;
-      color: var(--text);
-    }
-    .search-input:focus { border-color: var(--caramel); }
-    .cat-select {
-      padding: 0.6rem 1rem;
-      border: 1px solid var(--border);
-      background: #fff;
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.75rem;
-      color: var(--text);
-      outline: none;
-      cursor: pointer;
-    }
-    .cat-select:focus { border-color: var(--caramel); }
+    /* CONTROLS */
+    .menu-controls{display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+    .search-input{flex:1;min-width:200px;padding:.6rem 1rem;border:1px solid var(--border);background:#fff;font-family:'Josefin Sans',sans-serif;font-size:.75rem;letter-spacing:.05em;outline:none;color:var(--text);}
+    .search-input:focus{border-color:var(--caramel);}
+    .cat-select{padding:.6rem 1rem;border:1px solid var(--border);background:#fff;font-family:'Josefin Sans',sans-serif;font-size:.75rem;color:var(--text);outline:none;cursor:pointer;}
 
-    /* ── MENU TABLE ── */
-    .menu-table { width: 100%; border-collapse: collapse; }
-    .menu-table th {
-      text-align: left;
-      font-size: 0.55rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding: 0.6rem 1rem;
-      border-bottom: 1px solid var(--border);
-      background: var(--light-cream);
-    }
-    .menu-table td {
-      padding: 0.85rem 1rem;
-      border-bottom: 1px solid #f0e8d8;
-      vertical-align: middle;
-      font-size: 0.8rem;
-    }
-    .menu-table tr:hover td { background: #fdf8f0; }
-    .item-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      color: var(--dark);
-      font-weight: 500;
-    }
-    .item-cat-badge {
-      font-size: 0.5rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      background: var(--cream);
-      color: var(--warm);
-      padding: 0.2rem 0.5rem;
-      display: inline-block;
-      margin-top: 0.2rem;
-    }
-    .item-desc-cell {
-      font-size: 0.72rem;
-      color: var(--muted);
-      max-width: 340px;
-      line-height: 1.5;
-    }
-    .item-price-cell {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.95rem;
-      color: var(--caramel);
-      white-space: pre-line;
-    }
-    .item-img-cell img {
-      width: 60px; height: 45px;
-      object-fit: cover;
-      display: block;
-    }
-    .item-img-cell .no-img {
-      width: 60px; height: 45px;
-      background: var(--light-cream);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.5rem; color: var(--sand); letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-    .modified-dot {
-      display: inline-block;
-      width: 6px; height: 6px;
-      background: var(--caramel);
-      border-radius: 50%;
-      margin-left: 0.4rem;
-      vertical-align: middle;
-      title: "Modified";
-    }
-    .btn-edit {
-      padding: 0.4rem 0.9rem;
-      background: var(--dark);
-      color: var(--gold);
-      border: 1px solid rgba(212,168,75,0.3);
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.58rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .btn-edit:hover { background: var(--brown); border-color: var(--gold); }
-    .btn-reset-item {
-      padding: 0.4rem 0.7rem;
-      background: transparent;
-      color: var(--danger);
-      border: 1px solid rgba(184,50,50,0.25);
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.55rem;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-left: 0.4rem;
-    }
-    .btn-reset-item:hover { background: var(--danger-bg); }
+    /* TABLE */
+    .menu-table{width:100%;border-collapse:collapse;}
+    .menu-table th{text-align:left;font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);padding:.6rem 1rem;border-bottom:1px solid var(--border);background:var(--light-cream);}
+    .menu-table td{padding:.85rem 1rem;border-bottom:1px solid #f0e8d8;vertical-align:middle;font-size:.8rem;}
+    .menu-table tr:hover td{background:#fdf8f0;}
+    .item-name{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--dark);font-weight:500;}
+    .item-cat-badge{font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;background:var(--cream);color:var(--warm);padding:.2rem .5rem;display:inline-block;margin-top:.2rem;}
+    .item-desc-cell{font-size:.72rem;color:var(--muted);max-width:300px;line-height:1.5;}
+    .item-price-cell{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--caramel);white-space:pre-line;}
+    .item-img-cell img{width:60px;height:45px;object-fit:cover;display:block;}
+    .no-img{width:60px;height:45px;background:var(--light-cream);display:flex;align-items:center;justify-content:center;font-size:.5rem;color:var(--sand);letter-spacing:.1em;text-transform:uppercase;}
+    .modified-dot{display:inline-block;width:6px;height:6px;background:var(--caramel);border-radius:50%;margin-left:.4rem;vertical-align:middle;}
+    .btn-edit{padding:.4rem .9rem;background:var(--dark);color:var(--gold);border:1px solid rgba(212,168,75,.3);font-family:'Josefin Sans',sans-serif;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;}
+    .btn-edit:hover{background:var(--brown);border-color:var(--gold);}
+    .btn-reset-item{padding:.4rem .7rem;background:transparent;color:var(--danger);border:1px solid rgba(184,50,50,.25);font-family:'Josefin Sans',sans-serif;font-size:.55rem;letter-spacing:.1em;cursor:pointer;transition:all .2s;margin-left:.4rem;}
+    .btn-reset-item:hover{background:var(--danger-bg);}
 
-    /* ── MODAL ── */
-    .modal-backdrop {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(30,18,8,0.65);
-      z-index: 1000;
-      align-items: center; justify-content: center;
-    }
-    .modal-backdrop.open { display: flex; }
-    .modal {
-      background: #fff;
-      width: 560px;
-      max-width: 95vw;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(30,18,8,0.25);
-    }
-    .modal-header {
-      padding: 1.4rem 1.8rem;
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: flex-start; justify-content: space-between;
-      background: var(--dark);
-    }
-    .modal-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      color: var(--gold);
-    }
-    .modal-title small {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.58rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--sand);
-      display: block;
-      margin-top: 0.2rem;
-    }
-    .modal-close {
-      background: none; border: none;
-      color: var(--sand); font-size: 1.4rem;
-      cursor: pointer; line-height: 1;
-      padding: 0; margin-left: 1rem;
-    }
-    .modal-close:hover { color: var(--gold); }
-    .modal-body { padding: 1.8rem; display: flex; flex-direction: column; gap: 1.3rem; }
-    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-    .form-label {
-      font-size: 0.58rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .form-input, .form-textarea {
-      padding: 0.65rem 0.9rem;
-      border: 1px solid var(--border);
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.8rem;
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s;
-      background: #fff;
-      width: 100%;
-    }
-    .form-input:focus, .form-textarea:focus { border-color: var(--caramel); }
-    .form-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+    /* MODAL */
+    .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(30,18,8,.65);z-index:1000;align-items:center;justify-content:center;}
+    .modal-backdrop.open{display:flex;}
+    .modal{background:#fff;width:580px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(30,18,8,.25);}
+    .modal-header{padding:1.4rem 1.8rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;background:var(--dark);}
+    .modal-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold);}
+    .modal-title small{font-family:'Josefin Sans',sans-serif;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sand);display:block;margin-top:.2rem;}
+    .modal-close{background:none;border:none;color:var(--sand);font-size:1.4rem;cursor:pointer;line-height:1;padding:0;margin-left:1rem;}
+    .modal-close:hover{color:var(--gold);}
+    .modal-body{padding:1.8rem;display:flex;flex-direction:column;gap:1.3rem;}
+    .form-group{display:flex;flex-direction:column;gap:.4rem;}
+    .form-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+    .form-input,.form-textarea{padding:.65rem .9rem;border:1px solid var(--border);font-family:'Josefin Sans',sans-serif;font-size:.8rem;color:var(--text);outline:none;transition:border-color .2s;background:#fff;width:100%;}
+    .form-input:focus,.form-textarea:focus{border-color:var(--caramel);}
+    .form-textarea{resize:vertical;min-height:90px;line-height:1.6;}
+    .price-row{display:flex;gap:.8rem;}
+    .price-row .form-group{flex:1;}
+    .price-hint{font-size:.62rem;color:var(--muted);margin-top:.2rem;letter-spacing:.03em;}
 
-    .price-row { display: flex; gap: 0.8rem; }
-    .price-row .form-group { flex: 1; }
-    .price-hint {
-      font-size: 0.62rem;
-      color: var(--muted);
-      margin-top: 0.2rem;
-      letter-spacing: 0.03em;
-    }
+    /* IMAGE UPLOAD */
+    .img-upload-area{border:1.5px dashed var(--border);padding:1.2rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative;}
+    .img-upload-area:hover{border-color:var(--caramel);background:#fdf8f0;}
+    .img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .img-preview{width:100%;max-height:180px;object-fit:contain;display:block;margin-bottom:.8rem;}
+    .img-preview.hidden{display:none;}
+    .upload-placeholder{pointer-events:none;}
+    .upload-icon{font-size:1.8rem;margin-bottom:.4rem;}
+    .upload-text{font-size:.68rem;letter-spacing:.08em;color:var(--muted);}
+    .upload-text strong{color:var(--caramel);}
 
-    /* Image upload */
-    .img-upload-area {
-      border: 1.5px dashed var(--border);
-      padding: 1.2rem;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      position: relative;
-    }
-    .img-upload-area:hover { border-color: var(--caramel); background: #fdf8f0; }
-    .img-upload-area input[type=file] {
-      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-    }
-    .img-preview {
-      width: 100%; max-height: 180px;
-      object-fit: contain;
-      display: block;
-      margin-bottom: 0.8rem;
-    }
-    .img-preview.hidden { display: none; }
-    .upload-placeholder { pointer-events: none; }
-    .upload-icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
-    .upload-text {
-      font-size: 0.68rem;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-    }
-    .upload-text strong { color: var(--caramel); }
+    /* GITHUB UPLOAD STATUS */
+    .github-upload-status{margin-top:.8rem;padding:.7rem 1rem;font-size:.68rem;letter-spacing:.05em;display:none;border-left:3px solid;}
+    .github-upload-status.uploading{display:block;border-color:var(--gold);background:#fffbf0;color:var(--warm);}
+    .github-upload-status.success{display:block;border-color:#5ab882;background:#f0fff6;color:var(--success);}
+    .github-upload-status.error{display:block;border-color:var(--danger);background:var(--danger-bg);color:var(--danger);}
+    .upload-progress{height:2px;background:var(--border);margin-top:.5rem;overflow:hidden;}
+    .upload-progress-bar{height:100%;background:var(--gold);width:0%;transition:width .3s ease;}
 
-    .modal-footer {
-      padding: 1.2rem 1.8rem;
-      border-top: 1px solid var(--border);
-      display: flex; gap: 0.8rem; justify-content: flex-end;
-    }
-    .btn-cancel {
-      padding: 0.65rem 1.5rem;
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-cancel:hover { border-color: var(--warm); color: var(--warm); }
-    .btn-save {
-      padding: 0.65rem 1.8rem;
-      background: var(--gold);
-      border: none;
-      color: var(--dark);
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .btn-save:hover { background: var(--gold-light); }
+    /* MODAL FOOTER */
+    .modal-footer{padding:1.2rem 1.8rem;border-top:1px solid var(--border);display:flex;gap:.8rem;justify-content:flex-end;}
+    .btn-cancel{padding:.65rem 1.5rem;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Josefin Sans',sans-serif;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+    .btn-cancel:hover{border-color:var(--warm);color:var(--warm);}
+    .btn-save{padding:.65rem 1.8rem;background:var(--gold);border:none;color:var(--dark);font-family:'Josefin Sans',sans-serif;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background .2s;}
+    .btn-save:hover{background:var(--gold-light);}
+    .btn-save:disabled{opacity:.5;cursor:not-allowed;}
 
-    /* ── CONTACT PANEL ── */
-    .contact-form { display: flex; flex-direction: column; gap: 1.3rem; max-width: 620px; }
-    .contact-form .form-group.wide { max-width: 100%; }
-    .save-contact-btn {
-      padding: 0.8rem 2.5rem;
-      background: var(--gold);
-      border: none;
-      color: var(--dark);
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s;
-      align-self: flex-start;
-    }
-    .save-contact-btn:hover { background: var(--gold-light); }
+    /* GITHUB SETTINGS PANEL */
+    .github-settings-box{background:#fff;border:1px solid var(--border);padding:1.8rem;margin-bottom:2rem;}
+    .github-settings-box h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--dark);margin-bottom:.4rem;}
+    .github-settings-box p{font-size:.72rem;color:var(--muted);line-height:1.7;margin-bottom:1.2rem;}
+    .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .token-row{display:flex;gap:.6rem;align-items:flex-end;}
+    .token-row .form-group{flex:1;}
+    .btn-connect{padding:.65rem 1.5rem;background:var(--dark);border:1px solid rgba(212,168,75,.3);color:var(--gold);font-family:'Josefin Sans',sans-serif;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:all .2s;}
+    .btn-connect:hover{background:var(--brown);}
+    .connection-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1rem;font-size:.65rem;letter-spacing:.1em;}
+    .connection-badge.ok{background:#f0fff6;color:var(--success);border:1px solid rgba(45,122,79,.2);}
+    .connection-badge.fail{background:var(--danger-bg);color:var(--danger);border:1px solid rgba(184,50,50,.2);}
+    .steps-list{counter-reset:steps;display:flex;flex-direction:column;gap:.8rem;margin-top:1rem;}
+    .step{display:flex;gap:.8rem;font-size:.72rem;color:var(--muted);line-height:1.6;}
+    .step-num{width:22px;height:22px;background:var(--gold);color:var(--dark);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;flex-shrink:0;margin-top:.1rem;}
+    .step a{color:var(--caramel);}
+    .step code{background:var(--light-cream);padding:.1rem .4rem;font-size:.68rem;font-family:monospace;color:var(--warm);}
 
-    /* ── TOAST ── */
-    .toast {
-      position: fixed;
-      bottom: 2rem; right: 2rem;
-      background: var(--dark);
-      color: var(--gold);
-      padding: 0.9rem 1.5rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      border-left: 3px solid var(--gold);
-      z-index: 9000;
-      transform: translateY(80px);
-      opacity: 0;
-      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-      pointer-events: none;
-    }
-    .toast.show { transform: translateY(0); opacity: 1; }
-    .toast.success { border-color: #5ab882; color: #5ab882; }
-    .toast.error   { border-color: #ff7070; color: #ff7070; }
+    /* CONTACT PANEL */
+    .contact-form{display:flex;flex-direction:column;gap:1.3rem;max-width:620px;}
+    .save-contact-btn{padding:.8rem 2.5rem;background:var(--gold);border:none;color:var(--dark);font-family:'Josefin Sans',sans-serif;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:background .2s;align-self:flex-start;}
+    .save-contact-btn:hover{background:var(--gold-light);}
 
-    /* ── RESET ALL ── */
-    .danger-zone {
-      margin-top: 3rem;
-      padding: 1.5rem;
-      border: 1px solid rgba(184,50,50,0.2);
-      background: var(--danger-bg);
-    }
-    .danger-zone h3 {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--danger);
-      margin-bottom: 0.5rem;
-    }
-    .danger-zone p {
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-bottom: 1rem;
-      line-height: 1.6;
-    }
-    .btn-danger {
-      padding: 0.65rem 1.5rem;
-      background: var(--danger);
-      border: none;
-      color: #fff;
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 0.62rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-    .btn-danger:hover { opacity: 0.85; }
+    /* DANGER ZONE */
+    .danger-zone{margin-top:3rem;padding:1.5rem;border:1px solid rgba(184,50,50,.2);background:var(--danger-bg);}
+    .danger-zone h3{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--danger);margin-bottom:.5rem;}
+    .danger-zone p{font-size:.72rem;color:var(--muted);margin-bottom:1rem;line-height:1.6;}
+    .btn-danger{padding:.65rem 1.5rem;background:var(--danger);border:none;color:#fff;font-family:'Josefin Sans',sans-serif;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:opacity .2s;}
+    .btn-danger:hover{opacity:.85;}
 
-    /* ── STATS BAR ── */
-    .stats-bar {
-      display: flex; gap: 2rem; flex-wrap: wrap;
-      margin-bottom: 1.5rem;
-      padding: 1rem 1.5rem;
-      background: #fff;
-      border: 1px solid var(--border);
-    }
-    .stat { text-align: center; }
-    .stat-n {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      color: var(--caramel);
-      font-weight: 400;
-      line-height: 1;
-    }
-    .stat-l {
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 0.2rem;
-    }
+    /* TOAST */
+    .toast{position:fixed;bottom:2rem;right:2rem;background:var(--dark);color:var(--gold);padding:.9rem 1.5rem;font-size:.7rem;letter-spacing:.12em;border-left:3px solid var(--gold);z-index:9000;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.16,1,.3,1);pointer-events:none;max-width:320px;}
+    .toast.show{transform:translateY(0);opacity:1;}
+    .toast.success{border-color:#5ab882;color:#5ab882;}
+    .toast.error{border-color:#ff7070;color:#ff7070;}
   </style>
 </head>
 <body>
 
-<!-- ============================================================
-     LOGIN
-     ============================================================ -->
+<!-- LOGIN -->
 <div id="loginScreen">
   <img src="images/logo.png" class="login-logo" alt="Slice Craft Bakery">
   <div class="login-box">
@@ -579,21 +199,17 @@
   </div>
 </div>
 
-<!-- ============================================================
-     ADMIN APP
-     ============================================================ -->
+<!-- ADMIN APP -->
 <div id="adminApp">
 
   <!-- Header -->
   <div class="admin-header">
     <div class="admin-header-left">
       <img src="images/logo.png" alt="Logo">
-      <div class="admin-title">
-        Admin Panel
-        <span>Slice Craft Bakery</span>
-      </div>
+      <div class="admin-title">Admin Panel <span>Slice Craft Bakery</span></div>
     </div>
     <div class="header-actions">
+      <div class="github-status disconnected" id="githubStatusBadge" onclick="switchTab('github')" title="Click to set up GitHub">⚙ GitHub: Not connected</div>
       <a href="index.html" target="_blank" class="btn-preview">View Site ↗</a>
       <button class="btn-logout" onclick="doLogout()">Log Out</button>
     </div>
@@ -602,22 +218,19 @@
   <!-- Tabs -->
   <div class="admin-tabs">
     <button class="tab-btn active" data-tab="menu">Menu Items</button>
-    <button class="tab-btn" data-tab="contact">Visit Us Section</button>
+    <button class="tab-btn" data-tab="contact">Visit Us</button>
+    <button class="tab-btn" data-tab="github">GitHub Setup</button>
   </div>
 
-  <!-- ── MENU PANEL ── -->
+  <!-- MENU PANEL -->
   <div class="tab-panel active" id="tab-menu">
     <h2 class="panel-heading">Menu <em>Items</em></h2>
-    <p class="panel-sub">Edit prices, descriptions, and images for any menu item. Changes save instantly.</p>
-
-    <!-- Stats -->
+    <p class="panel-sub">Edit prices, descriptions, and images. Images upload directly to your GitHub repository when GitHub is connected.</p>
     <div class="stats-bar">
       <div class="stat"><div class="stat-n" id="statTotal">0</div><div class="stat-l">Total Items</div></div>
       <div class="stat"><div class="stat-n" id="statModified">0</div><div class="stat-l">Modified</div></div>
-      <div class="stat"><div class="stat-n" id="statCats">10</div><div class="stat-l">Categories</div></div>
+      <div class="stat"><div class="stat-n" id="statImages">0</div><div class="stat-l">Custom Images</div></div>
     </div>
-
-    <!-- Controls -->
     <div class="menu-controls">
       <input class="search-input" id="searchInput" placeholder="Search items…" oninput="filterTable()">
       <select class="cat-select" id="catFilter" onchange="filterTable()">
@@ -634,39 +247,28 @@
         <option value="croissant">Croissant</option>
       </select>
     </div>
-
     <table class="menu-table" id="menuTable">
-      <thead>
-        <tr>
-          <th>Image</th>
-          <th>Item</th>
-          <th>Description</th>
-          <th>Price(s)</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Image</th><th>Item</th><th>Description</th><th>Price(s)</th><th>Actions</th></tr></thead>
       <tbody id="menuTbody"></tbody>
     </table>
-
     <div class="danger-zone">
       <h3>⚠ Reset All Menu Edits</h3>
-      <p>This will remove all your price, description, and image changes and restore the original menu. This cannot be undone.</p>
+      <p>Removes all your saved price, description changes. Does not delete images already uploaded to GitHub.</p>
       <button class="btn-danger" onclick="resetAllMenu()">Reset Menu to Original</button>
     </div>
   </div>
 
-  <!-- ── CONTACT PANEL ── -->
+  <!-- CONTACT PANEL -->
   <div class="tab-panel" id="tab-contact">
     <h2 class="panel-heading">Come <em>Visit Us</em></h2>
-    <p class="panel-sub">Edit the contact section that appears at the bottom of the homepage.</p>
-
+    <p class="panel-sub">Edit the contact section on the homepage.</p>
     <div class="contact-form">
-      <div class="form-group wide">
-        <label class="form-label">Section Heading (use &lt;em&gt; for italic gold text)</label>
+      <div class="form-group">
+        <label class="form-label">Section Heading (wrap text in &lt;em&gt; for gold italic)</label>
         <input class="form-input" id="cfHeading" value="Come <em>Visit Us</em>">
       </div>
-      <div class="form-group wide">
-        <label class="form-label">Subtitle / Tagline</label>
+      <div class="form-group">
+        <label class="form-label">Subtitle</label>
         <textarea class="form-textarea" id="cfSubtext" rows="3">Every morning we open our doors to the aroma of fresh bread and the warmth of community. We'd love to see you.</textarea>
       </div>
       <div class="form-group">
@@ -679,25 +281,75 @@
       </div>
       <div class="form-group">
         <label class="form-label">Email</label>
-        <input class="form-input" id="cfEmail" placeholder="e.g. hello@slicecraftbakery.com">
+        <input class="form-input" id="cfEmail">
       </div>
       <div class="form-group">
         <label class="form-label">Instagram</label>
-        <input class="form-input" id="cfInstagram" placeholder="e.g. @slicecraftbakery">
+        <input class="form-input" id="cfInstagram">
       </div>
       <button class="save-contact-btn" onclick="saveContact()">Save Changes</button>
-
       <div class="danger-zone" style="margin-top:1rem;">
         <h3>⚠ Reset Contact Info</h3>
-        <p>Restore the original contact details.</p>
+        <p>Restore original contact details.</p>
         <button class="btn-danger" onclick="resetContact()">Reset to Original</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GITHUB SETUP PANEL -->
+  <div class="tab-panel" id="tab-github">
+    <h2 class="panel-heading">GitHub <em>Setup</em></h2>
+    <p class="panel-sub">Connect to your GitHub repository so images you upload in the admin panel are saved directly to your live site.</p>
+
+    <div class="github-settings-box">
+      <h3>Repository Settings</h3>
+      <p>Enter your GitHub details below. Your token is stored only in your browser's localStorage — it never leaves your device.</p>
+      <div class="settings-grid">
+        <div class="form-group">
+          <label class="form-label">GitHub Username</label>
+          <input class="form-input" id="ghUsername" placeholder="e.g. alizaslicecraftbakery">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Repository Name</label>
+          <input class="form-input" id="ghRepo" placeholder="e.g. slicecraftbakery">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Branch</label>
+          <input class="form-input" id="ghBranch" placeholder="main" value="main">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Images Folder</label>
+          <input class="form-input" id="ghFolder" placeholder="images" value="images">
+        </div>
+      </div>
+      <div class="token-row" style="margin-top:1rem;">
+        <div class="form-group">
+          <label class="form-label">Personal Access Token</label>
+          <input class="form-input" type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+        </div>
+        <button class="btn-connect" onclick="testAndSaveGithub()">Connect & Test</button>
+      </div>
+      <div id="connectionResult" style="margin-top:.8rem;display:none;"></div>
+    </div>
+
+    <!-- How to get a token -->
+    <div class="github-settings-box">
+      <h3>How to create a Personal Access Token</h3>
+      <p>A token lets the admin panel upload images to your GitHub repo on your behalf. It only needs permission to write files.</p>
+      <div class="steps-list">
+        <div class="step"><div class="step-num">1</div><div>Go to <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a> (you must be logged in)</div></div>
+        <div class="step"><div class="step-num">2</div><div>Give it a name like <code>Slice Craft Admin</code></div></div>
+        <div class="step"><div class="step-num">3</div><div>Set expiration to <code>No expiration</code> (or 1 year)</div></div>
+        <div class="step"><div class="step-num">4</div><div>Under <strong>Scopes</strong>, tick only <code>repo</code> (the top checkbox — this covers file writes)</div></div>
+        <div class="step"><div class="step-num">5</div><div>Click <strong>Generate token</strong> — copy it immediately, GitHub only shows it once</div></div>
+        <div class="step"><div class="step-num">6</div><div>Paste it into the token field above and click <strong>Connect & Test</strong></div></div>
       </div>
     </div>
   </div>
 
 </div><!-- /adminApp -->
 
-<!-- ── EDIT MODAL ── -->
+<!-- EDIT MODAL -->
 <div class="modal-backdrop" id="editModal">
   <div class="modal">
     <div class="modal-header">
@@ -708,47 +360,40 @@
       <button class="modal-close" onclick="closeModal()">×</button>
     </div>
     <div class="modal-body">
-
-      <!-- Description -->
       <div class="form-group">
         <label class="form-label">Description</label>
         <textarea class="form-textarea" id="editDesc" rows="3"></textarea>
       </div>
-
-      <!-- Price fields (single or multi rendered by JS) -->
       <div id="priceFields"></div>
-
-      <!-- Image upload -->
       <div class="form-group">
         <label class="form-label">Item Image</label>
         <div class="img-upload-area" id="imgUploadArea">
-          <input type="file" accept="image/*" id="imgFileInput" onchange="handleImageUpload(event)">
+          <input type="file" accept="image/jpeg,image/png,image/webp" id="imgFileInput" onchange="handleImageUpload(event)">
           <img class="img-preview hidden" id="imgPreview" alt="Preview">
           <div class="upload-placeholder" id="uploadPlaceholder">
             <div class="upload-icon">🖼️</div>
-            <div class="upload-text">Click or drag to upload a photo<br><strong>JPG, PNG, WEBP</strong> recommended</div>
+            <div class="upload-text">Click or drag to upload a photo<br><strong>JPG, PNG, WEBP</strong> — max 5MB</div>
           </div>
         </div>
-        <p class="price-hint">Images are stored locally in your browser. For best results use a square or 4:3 image.</p>
+        <div class="github-upload-status" id="githubUploadStatus">
+          <span id="githubUploadMsg"></span>
+          <div class="upload-progress"><div class="upload-progress-bar" id="uploadProgressBar"></div></div>
+        </div>
+        <p class="price-hint" id="imageHint">Connect GitHub in the GitHub Setup tab to save images to your live site.</p>
       </div>
-
     </div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save"   onclick="saveItem()">Save Changes</button>
+      <button class="btn-save" id="saveBtn" onclick="saveItem()">Save Changes</button>
     </div>
   </div>
 </div>
 
-<!-- ── TOAST ── -->
 <div class="toast" id="toast"></div>
-
 <script>
-/* ============================================================
-   ADMIN JAVASCRIPT
-   ============================================================ */
+'use strict';
 
-// ── Credentials (change these!) ──
+// ── Credentials ──
 const ADMIN_USER = 'sliceadmin';
 const ADMIN_PASS = 'craftbakery2025';
 
@@ -756,10 +401,21 @@ const ADMIN_PASS = 'craftbakery2025';
 const KEY_MENU    = 'scb_menu_overrides';
 const KEY_CONTACT = 'scb_contact';
 const KEY_SESSION = 'scb_admin_session';
+const KEY_GITHUB  = 'scb_github_config';
 
 // ── State ──
 let currentItem = null;
-let pendingImg  = null;
+let pendingFile = null;   // raw File object
+let pendingB64  = null;   // base64 preview string
+let ghConfig    = null;   // { username, repo, branch, folder, token }
+
+// ── Category labels ──
+const CAT_LABELS = {
+  cakes:'Cakes', cheesecakes:'Cheesecakes', drinks:'Drinks',
+  cookies:'Cookies', bars:'Bars', pasta:'Handmade Pasta',
+  frenchtoast:'French Toast', focaccia:'Focaccia Sandwich',
+  toasties:'Sourdough Toasties', croissant:'Croissant'
+};
 
 // ── Full menu data (must match main.js MENU array) ──
 const MENU = [
@@ -883,14 +539,17 @@ const MENU = [
   { cat:'croissant', name:'Pistachio Chocolate Kataifi', desc:'Croissant with pistachio kataifi and dark chocolate.', price:'₱275' },
 ];
 
-const CAT_LABELS = {
+
+const CAT_LABELS_MAP = {
   cakes:'Cakes', cheesecakes:'Cheesecakes', drinks:'Drinks',
   cookies:'Cookies', bars:'Bars', pasta:'Handmade Pasta',
   frenchtoast:'French Toast', focaccia:'Focaccia Sandwich',
   toasties:'Sourdough Toasties', croissant:'Croissant'
 };
 
-// ── Login ──
+// ════════════════════════════════════════
+// LOGIN
+// ════════════════════════════════════════
 function doLogin() {
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value;
@@ -904,52 +563,219 @@ function doLogin() {
     document.getElementById('loginPass').value = '';
   }
 }
-document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-document.getElementById('loginUser').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('loginPass').focus(); });
+document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key==='Enter') doLogin(); });
+document.getElementById('loginUser').addEventListener('keydown', e => { if (e.key==='Enter') document.getElementById('loginPass').focus(); });
 
 function doLogout() {
   sessionStorage.removeItem(KEY_SESSION);
   location.reload();
 }
 
-// Auto-login if session active
-if (sessionStorage.getItem(KEY_SESSION)) {
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('adminApp').classList.add('visible');
+// ════════════════════════════════════════
+// TABS
+// ════════════════════════════════════════
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+});
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + tab));
 }
 
-// ── Tabs ──
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-  });
-});
+// ════════════════════════════════════════
+// GITHUB CONFIG
+// ════════════════════════════════════════
+function loadGhConfig() {
+  try { ghConfig = JSON.parse(localStorage.getItem(KEY_GITHUB) || 'null'); } catch(e) { ghConfig = null; }
+  return ghConfig;
+}
 
-// ── Load overrides ──
+function saveGhConfig(cfg) {
+  ghConfig = cfg;
+  localStorage.setItem(KEY_GITHUB, JSON.stringify(cfg));
+}
+
+function updateGithubStatusBadge() {
+  const badge = document.getElementById('githubStatusBadge');
+  const hint  = document.getElementById('imageHint');
+  if (ghConfig && ghConfig.token && ghConfig.verified) {
+    badge.className = 'github-status connected';
+    badge.textContent = '✓ GitHub: Connected';
+    badge.onclick = () => switchTab('github');
+    if (hint) hint.textContent = `Images will be saved to github.com/${ghConfig.username}/${ghConfig.repo}/images/`;
+  } else {
+    badge.className = 'github-status disconnected';
+    badge.textContent = '⚙ GitHub: Not connected';
+    badge.onclick = () => switchTab('github');
+    if (hint) hint.textContent = 'Connect GitHub in the GitHub Setup tab to save images to your live site.';
+  }
+}
+
+function populateGithubForm() {
+  if (!ghConfig) return;
+  document.getElementById('ghUsername').value = ghConfig.username || '';
+  document.getElementById('ghRepo').value     = ghConfig.repo     || '';
+  document.getElementById('ghBranch').value   = ghConfig.branch   || 'main';
+  document.getElementById('ghFolder').value   = ghConfig.folder   || 'images';
+  document.getElementById('ghToken').value    = ghConfig.token    || '';
+  if (ghConfig.verified) {
+    showConnectionResult(true, `Connected to ${ghConfig.username}/${ghConfig.repo}`);
+  }
+}
+
+async function testAndSaveGithub() {
+  const cfg = {
+    username: document.getElementById('ghUsername').value.trim(),
+    repo:     document.getElementById('ghRepo').value.trim(),
+    branch:   document.getElementById('ghBranch').value.trim() || 'main',
+    folder:   document.getElementById('ghFolder').value.trim() || 'images',
+    token:    document.getElementById('ghToken').value.trim(),
+    verified: false,
+  };
+
+  if (!cfg.username || !cfg.repo || !cfg.token) {
+    showConnectionResult(false, 'Please fill in all fields.');
+    return;
+  }
+
+  showConnectionResult(null, 'Testing connection…');
+
+  try {
+    // Test by fetching the repo info
+    const res = await fetch(`https://api.github.com/repos/${cfg.username}/${cfg.repo}`, {
+      headers: {
+        'Authorization': `token ${cfg.token}`,
+        'Accept': 'application/vnd.github.v3+json',
+      }
+    });
+
+    if (res.status === 200) {
+      cfg.verified = true;
+      saveGhConfig(cfg);
+      updateGithubStatusBadge();
+      showConnectionResult(true, `✓ Connected to ${cfg.username}/${cfg.repo} — images will upload to /${cfg.folder}/`);
+      showToast('GitHub connected!', 'success');
+    } else if (res.status === 401) {
+      showConnectionResult(false, 'Invalid token. Check your Personal Access Token and try again.');
+    } else if (res.status === 404) {
+      showConnectionResult(false, `Repository "${cfg.username}/${cfg.repo}" not found. Check the username and repo name.`);
+    } else {
+      showConnectionResult(false, `Unexpected error (${res.status}). Please try again.`);
+    }
+  } catch(e) {
+    showConnectionResult(false, 'Network error. Make sure you have internet access.');
+  }
+}
+
+function showConnectionResult(ok, msg) {
+  const el = document.getElementById('connectionResult');
+  el.style.display = 'block';
+  if (ok === null) {
+    el.className = 'connection-badge';
+    el.innerHTML = `<span>⏳</span> ${msg}`;
+    el.style.background = '#fffbf0';
+    el.style.color = 'var(--warm)';
+    el.style.border = '1px solid rgba(200,145,58,.2)';
+  } else if (ok) {
+    el.className = 'connection-badge ok';
+    el.innerHTML = `<span>✓</span> ${msg}`;
+  } else {
+    el.className = 'connection-badge fail';
+    el.innerHTML = `<span>✗</span> ${msg}`;
+  }
+}
+
+// ════════════════════════════════════════
+// UPLOAD IMAGE TO GITHUB
+// ════════════════════════════════════════
+async function uploadImageToGithub(file, filename) {
+  if (!ghConfig || !ghConfig.verified) return null;
+
+  const statusEl  = document.getElementById('githubUploadStatus');
+  const msgEl     = document.getElementById('githubUploadMsg');
+  const barEl     = document.getElementById('uploadProgressBar');
+
+  statusEl.className = 'github-upload-status uploading';
+  msgEl.textContent  = `Uploading ${filename} to GitHub…`;
+  barEl.style.width  = '30%';
+
+  // Convert file to base64
+  const b64 = await new Promise((res, rej) => {
+    const reader = new FileReader();
+    reader.onload  = e => res(e.target.result.split(',')[1]); // strip data:image/...;base64,
+    reader.onerror = rej;
+    reader.readAsDataURL(file);
+  });
+
+  barEl.style.width = '60%';
+
+  const path    = `${ghConfig.folder}/${filename}`;
+  const apiUrl  = `https://api.github.com/repos/${ghConfig.username}/${ghConfig.repo}/contents/${path}`;
+  const headers = {
+    'Authorization': `token ${ghConfig.token}`,
+    'Accept': 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json',
+  };
+
+  // Check if file already exists (need its SHA to update)
+  let sha = null;
+  try {
+    const check = await fetch(apiUrl, { headers });
+    if (check.status === 200) {
+      const data = await check.json();
+      sha = data.sha;
+    }
+  } catch(e) {}
+
+  barEl.style.width = '80%';
+
+  // Create or update file
+  const body = {
+    message: `Admin: update image ${filename}`,
+    content: b64,
+    branch:  ghConfig.branch,
+  };
+  if (sha) body.sha = sha; // required for updates
+
+  const res = await fetch(apiUrl, {
+    method:  'PUT',
+    headers,
+    body:    JSON.stringify(body),
+  });
+
+  if (res.status === 200 || res.status === 201) {
+    barEl.style.width = '100%';
+    statusEl.className = 'github-upload-status success';
+    const action = res.status === 201 ? 'Uploaded' : 'Updated';
+    msgEl.textContent = `✓ ${action} — live at images/${filename}`;
+    // Return the raw GitHub URL that the live site will use
+    return `images/${filename}`;
+  } else {
+    const err = await res.json().catch(() => ({}));
+    statusEl.className = 'github-upload-status error';
+    msgEl.textContent  = `✗ Upload failed: ${err.message || res.status}`;
+    barEl.style.width  = '0%';
+    return null;
+  }
+}
+
+// ════════════════════════════════════════
+// MENU TABLE
+// ════════════════════════════════════════
 function loadOverrides() {
-  try { return JSON.parse(localStorage.getItem(KEY_MENU) || '{}'); }
-  catch(e) { return {}; }
+  try { return JSON.parse(localStorage.getItem(KEY_MENU) || '{}'); } catch(e) { return {}; }
 }
 function saveOverrides(o) { localStorage.setItem(KEY_MENU, JSON.stringify(o)); }
 
-// ── Init admin ──
-function initAdmin() {
-  renderTable(MENU);
-  loadContactForm();
-  updateStats();
-}
-
-// ── Stats ──
 function updateStats() {
-  const o = loadOverrides();
-  document.getElementById('statTotal').textContent = MENU.length;
-  document.getElementById('statModified').textContent = Object.keys(o).length;
+  const o     = loadOverrides();
+  const keys  = Object.keys(o);
+  const imgs  = keys.filter(k => o[k].githubImg || o[k].img).length;
+  document.getElementById('statTotal').textContent    = MENU.length;
+  document.getElementById('statModified').textContent = keys.length;
+  document.getElementById('statImages').textContent   = imgs;
 }
 
-// ── Table ──
 function renderTable(items) {
   const o     = loadOverrides();
   const tbody = document.getElementById('menuTbody');
@@ -957,8 +783,10 @@ function renderTable(items) {
     const key  = item.cat + '|' + item.name;
     const ov   = o[key] || {};
     const mod  = Object.keys(ov).length > 0;
-    const desc = ov.desc  || item.desc;
-    const img  = ov.img   || null;
+    const desc = ov.desc || item.desc;
+
+    // Image: prefer github path, fallback to base64 preview
+    const imgSrc = ov.githubImg || ov.img || null;
 
     let priceDisplay = '';
     if (item.sizes) {
@@ -968,20 +796,21 @@ function renderTable(items) {
       priceDisplay = ov.price || item.price;
     }
 
-    const imgCell = img
-      ? `<img src="${img}" style="width:60px;height:45px;object-fit:cover;display:block;" alt="">`
-      : `<div class="no-img" style="width:60px;height:45px;background:#f5edd6;display:flex;align-items:center;justify-content:center;font-size:0.5rem;color:#c8b090;letter-spacing:0.1em;">No img</div>`;
+    const imgCell = imgSrc
+      ? `<img src="${imgSrc}" style="width:60px;height:45px;object-fit:cover;display:block;" alt="">`
+      : `<div class="no-img">No img</div>`;
 
     return `<tr data-key="${key}">
       <td>${imgCell}</td>
       <td>
         <div class="item-name">${item.name}${mod ? '<span class="modified-dot" title="Modified"></span>' : ''}</div>
-        <div class="item-cat-badge">${CAT_LABELS[item.cat] || item.cat}</div>
+        <div class="item-cat-badge">${CAT_LABELS_MAP[item.cat] || item.cat}</div>
       </td>
       <td class="item-desc-cell">${desc}</td>
       <td class="item-price-cell">${priceDisplay}</td>
       <td>
-        <button class="btn-edit" onclick='openEdit(${JSON.stringify(key)})'>Edit</button>${mod ? `<button class="btn-reset-item" onclick='resetItem(${JSON.stringify(key)})' title="Reset to original">↺</button>` : ''}
+        <button class="btn-edit" onclick='openEdit(${JSON.stringify(key)})'>Edit</button>
+        ${mod ? `<button class="btn-reset-item" onclick='resetItem(${JSON.stringify(key)})' title="Reset to original">↺</button>` : ''}
       </td>
     </tr>`;
   }).join('');
@@ -997,43 +826,47 @@ function filterTable() {
   renderTable(filtered);
 }
 
-// ── Modal ──
+// ════════════════════════════════════════
+// EDIT MODAL
+// ════════════════════════════════════════
 function openEdit(key) {
   const [cat, name] = key.split('|');
   currentItem = MENU.find(i => i.cat === cat && i.name === name);
   if (!currentItem) return;
-  pendingImg = null;
+  pendingFile = null;
+  pendingB64  = null;
 
   const o  = loadOverrides();
   const ov = o[key] || {};
 
   document.getElementById('modalItemName').textContent = currentItem.name;
-  document.getElementById('modalItemCat').textContent  = CAT_LABELS[currentItem.cat] || currentItem.cat;
+  document.getElementById('modalItemCat').textContent  = CAT_LABELS_MAP[currentItem.cat] || currentItem.cat;
   document.getElementById('editDesc').value = ov.desc || currentItem.desc;
 
   // Price fields
   const pf = document.getElementById('priceFields');
   if (currentItem.sizes) {
     const px = ov.prices ? JSON.parse(ov.prices) : currentItem.prices;
-    pf.innerHTML = `<div class="form-group"><label class="form-label">Prices</label><div class="price-row">${
-      currentItem.sizes.map((s,i) => `
+    pf.innerHTML = `<div class="form-group"><label class="form-label">Prices</label>
+      <div class="price-row">${currentItem.sizes.map((s,i) => `
         <div class="form-group">
           <label class="form-label">${s}</label>
           <input class="form-input" id="editPrice${i}" value="${px[i]}" placeholder="e.g. ₱1,200">
-        </div>`).join('')
-    }</div><p class="price-hint">Include the ₱ symbol and commas, e.g. ₱1,200</p></div>`;
+        </div>`).join('')}
+      </div>
+      <p class="price-hint">Include the ₱ symbol and commas, e.g. ₱1,200</p></div>`;
   } else {
-    const px = ov.price || currentItem.price;
     pf.innerHTML = `<div class="form-group"><label class="form-label">Price</label>
-      <input class="form-input" id="editPrice0" value="${px}" placeholder="e.g. ₱480">
+      <input class="form-input" id="editPrice0" value="${ov.price || currentItem.price}" placeholder="e.g. ₱480">
       <p class="price-hint">Include the ₱ symbol, e.g. ₱480</p></div>`;
   }
 
-  // Image preview
-  const preview = document.getElementById('imgPreview');
+  // Image preview — prefer GitHub path, then base64 local
+  const preview     = document.getElementById('imgPreview');
   const placeholder = document.getElementById('uploadPlaceholder');
-  if (ov.img) {
-    preview.src = ov.img;
+  const imgSrc      = ov.githubImg || ov.img || null;
+  if (imgSrc) {
+    preview.src = imgSrc;
     preview.classList.remove('hidden');
     placeholder.style.display = 'none';
   } else {
@@ -1041,7 +874,13 @@ function openEdit(key) {
     preview.classList.add('hidden');
     placeholder.style.display = 'block';
   }
+
+  // Reset upload status
+  const statusEl = document.getElementById('githubUploadStatus');
+  statusEl.className = 'github-upload-status';
+  document.getElementById('uploadProgressBar').style.width = '0%';
   document.getElementById('imgFileInput').value = '';
+  document.getElementById('saveBtn').disabled = false;
 
   document.getElementById('editModal').classList.add('open');
 }
@@ -1049,39 +888,88 @@ function openEdit(key) {
 function closeModal() {
   document.getElementById('editModal').classList.remove('open');
   currentItem = null;
-  pendingImg  = null;
+  pendingFile = null;
+  pendingB64  = null;
 }
 
 function handleImageUpload(e) {
   const file = e.target.files[0];
   if (!file) return;
-  if (file.size > 3 * 1024 * 1024) { showToast('Image must be under 3MB', 'error'); return; }
+  if (file.size > 5 * 1024 * 1024) {
+    showToast('Image must be under 5MB', 'error');
+    return;
+  }
+  pendingFile = file;
+
+  // Show local preview immediately
   const reader = new FileReader();
   reader.onload = ev => {
-    pendingImg = ev.target.result;
+    pendingB64 = ev.target.result;
     const preview = document.getElementById('imgPreview');
-    preview.src = pendingImg;
+    preview.src = pendingB64;
     preview.classList.remove('hidden');
     document.getElementById('uploadPlaceholder').style.display = 'none';
+
+    // Show GitHub status hint
+    const statusEl = document.getElementById('githubUploadStatus');
+    if (ghConfig && ghConfig.verified) {
+      statusEl.className = 'github-upload-status uploading';
+      document.getElementById('githubUploadMsg').textContent = 'Ready to upload — click Save Changes to upload to GitHub.';
+      document.getElementById('uploadProgressBar').style.width = '0%';
+    } else {
+      statusEl.className = 'github-upload-status error';
+      document.getElementById('githubUploadMsg').textContent = 'GitHub not connected — image will only be saved locally in this browser.';
+    }
   };
   reader.readAsDataURL(file);
 }
 
-function saveItem() {
+async function saveItem() {
   if (!currentItem) return;
-  const key = currentItem.cat + '|' + currentItem.name;
-  const o   = loadOverrides();
-  const ov  = o[key] || {};
+  const key     = currentItem.cat + '|' + currentItem.name;
+  const o       = loadOverrides();
+  const ov      = o[key] || {};
+  const saveBtn = document.getElementById('saveBtn');
 
+  // Save desc & prices
   ov.desc = document.getElementById('editDesc').value.trim();
-
   if (currentItem.sizes) {
     ov.prices = JSON.stringify(currentItem.sizes.map((_,i) => document.getElementById('editPrice'+i).value.trim()));
   } else {
     ov.price = document.getElementById('editPrice0').value.trim();
   }
 
-  if (pendingImg) ov.img = pendingImg;
+  // Upload image if one was selected
+  if (pendingFile) {
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Uploading…';
+
+    if (ghConfig && ghConfig.verified) {
+      // Generate a clean filename from item name
+      const ext      = pendingFile.name.split('.').pop().toLowerCase() || 'jpg';
+      const safeName = currentItem.name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '') + '.' + ext;
+
+      const githubPath = await uploadImageToGithub(pendingFile, safeName);
+      if (githubPath) {
+        ov.githubImg = githubPath;
+        delete ov.img; // remove any old local base64
+      } else {
+        // Upload failed — fall back to local base64
+        ov.img = pendingB64;
+        showToast('GitHub upload failed — saved locally instead', 'error');
+      }
+    } else {
+      // No GitHub — save base64 locally
+      ov.img = pendingB64;
+      showToast('Saved locally (GitHub not connected)', '');
+    }
+
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'Save Changes';
+  }
 
   o[key] = ov;
   saveOverrides(o);
@@ -1102,26 +990,27 @@ function resetItem(key) {
 }
 
 function resetAllMenu() {
-  if (!confirm('Reset ALL menu items to their original values? This cannot be undone.')) return;
+  if (!confirm('Reset ALL menu edits to original values? Images on GitHub will not be deleted.')) return;
   localStorage.removeItem(KEY_MENU);
   updateStats();
   filterTable();
   showToast('All menu edits cleared', '');
 }
 
-// ── Contact ──
+// ════════════════════════════════════════
+// CONTACT
+// ════════════════════════════════════════
 const CONTACT_DEFAULTS = {
-  heading:   'Come <em>Visit Us</em>',
-  subtext:   "Every morning we open our doors to the aroma of fresh bread and the warmth of community. We'd love to see you.",
-  location:  'Quezon City, Philippines',
-  hours:     'Tue–Sun, 7am – 6pm',
-  email:     'hello@slicecraftbakery.com',
-  instagram: '@slicecraftbakery',
+  heading:'Come <em>Visit Us</em>',
+  subtext:"Every morning we open our doors to the aroma of fresh bread and the warmth of community. We'd love to see you.",
+  location:'Quezon City, Philippines',
+  hours:'Tue–Sun, 7am – 6pm',
+  email:'hello@slicecraftbakery.com',
+  instagram:'@slicecraftbakery',
 };
 
 function loadContactForm() {
-  let c;
-  try { c = JSON.parse(localStorage.getItem(KEY_CONTACT) || '{}'); } catch(e) { c = {}; }
+  let c; try { c = JSON.parse(localStorage.getItem(KEY_CONTACT) || '{}'); } catch(e) { c = {}; }
   document.getElementById('cfHeading').value   = c.heading   || CONTACT_DEFAULTS.heading;
   document.getElementById('cfSubtext').value   = c.subtext   || CONTACT_DEFAULTS.subtext;
   document.getElementById('cfLocation').value  = c.location  || CONTACT_DEFAULTS.location;
@@ -1144,29 +1033,47 @@ function saveContact() {
 }
 
 function resetContact() {
-  if (!confirm('Reset contact info to original values?')) return;
+  if (!confirm('Reset contact info to original?')) return;
   localStorage.removeItem(KEY_CONTACT);
   loadContactForm();
   showToast('Contact reset to original', '');
 }
 
-// ── Toast ──
+// ════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════
 let toastTimer;
 function showToast(msg, type = '') {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.className = 'toast show ' + type;
+  t.className   = 'toast show ' + type;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ── Close modal on backdrop click ──
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+function initAdmin() {
+  loadGhConfig();
+  updateGithubStatusBadge();
+  populateGithubForm();
+  renderTable(MENU);
+  loadContactForm();
+  updateStats();
+}
+
+// Modal backdrop click to close
 document.getElementById('editModal').addEventListener('click', e => {
   if (e.target === document.getElementById('editModal')) closeModal();
 });
 
-// ── Auto-init if session active ──
-if (sessionStorage.getItem(KEY_SESSION)) initAdmin();
+// Auto-login if session still active
+if (sessionStorage.getItem(KEY_SESSION)) {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('adminApp').classList.add('visible');
+  initAdmin();
+}
 </script>
 </body>
 </html>
