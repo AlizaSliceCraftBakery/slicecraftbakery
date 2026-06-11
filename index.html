@@ -205,6 +205,38 @@
   <div class="footer-copy">© 2025 Slice Craft Bakery. All rights reserved.</div>
 </footer>
 
+
+<!-- ============================================================
+     PRODUCT DETAIL MODAL
+     ============================================================ -->
+<div class="pm-backdrop" id="productModal">
+  <div class="pm-modal">
+
+    <button class="pm-close" onclick="closeProductModal()" aria-label="Close">×</button>
+
+    <div class="pm-layout">
+      <!-- Image side -->
+      <div class="pm-img-wrap">
+        <img id="pmImg" src="" alt="" class="pm-img">
+        <div class="pm-img-overlay"></div>
+        <span class="pm-tag" id="pmTag"></span>
+      </div>
+
+      <!-- Content side -->
+      <div class="pm-content">
+        <h2 class="pm-name" id="pmName"></h2>
+        <div class="pm-divider"></div>
+        <p class="pm-desc" id="pmDesc"></p>
+        <div class="pm-prices-wrap">
+          <div class="pm-prices-label">Pricing</div>
+          <div class="pm-prices" id="pmPrices"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <script src="js/main.js"></script>
 </body>
 </html>
