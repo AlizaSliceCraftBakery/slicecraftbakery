@@ -506,12 +506,15 @@ window.getImg = function(item) {
   return _origGetImg(item.cat || item);
 };
 
-// Patch buildCard to pass the full item object to getImg
+// Patch buildCard — clickable card that opens product modal
 const _origBuildCard = buildCard;
 window.buildCard = function(item) {
-  // temporarily override getImg lookup inside buildCard
-  const img = item._adminImg ? item._adminImg : _origGetImg(item.cat);
+  const img   = item._adminImg ? item._adminImg : _origGetImg(item.cat);
   const label = CAT_LABELS[item.cat] || item.cat;
+
+  // Store item data on the card via a safe index
+  const idx = _productRegistry.push(item) - 1;
+
   let priceHTML;
   if (item.sizes && item.prices) {
     priceHTML = item.sizes.map((s, i) =>
@@ -521,8 +524,9 @@ window.buildCard = function(item) {
   } else {
     priceHTML = `<div class="card-prices single"><span class="price-val">${item.price}</span></div>`;
   }
+
   return `
-    <div class="menu-card" data-cat="${item.cat}">
+    <div class="menu-card" data-cat="${item.cat}" data-idx="${idx}" onclick="openProductModal(${idx})">
       <div class="card-img">
         <img src="${img}" alt="${item.name}" loading="lazy">
         <div class="card-overlay"></div>
@@ -533,8 +537,59 @@ window.buildCard = function(item) {
         <div class="card-desc">${item.desc}</div>
         <div class="card-footer">
           ${priceHTML}
-          <button class="card-add" onclick="toggleAdd(this)" title="Add to order">+</button>
+          <button class="card-add" onclick="event.stopPropagation();toggleAdd(this)" title="View details">+</button>
         </div>
       </div>
     </div>`;
 };
+
+// Registry cleared on each renderMenu call
+let _productRegistry = [];
+const _origRenderMenu = renderMenu;
+window.renderMenu = function(filterCat = 'all') {
+  _productRegistry = [];
+  _origRenderMenu(filterCat);
+};
+
+// ===== PRODUCT MODAL =====
+window.openProductModal = function(idx) {
+  const item  = _productRegistry[idx];
+  if (!item) return;
+  const img   = item._adminImg ? item._adminImg : _origGetImg(item.cat);
+  const label = CAT_LABELS[item.cat] || item.cat;
+
+  // Build price rows
+  let priceRows = '';
+  if (item.sizes && item.prices) {
+    priceRows = item.sizes.map((s, i) => `
+      <div class="pm-price-row">
+        <span class="pm-size">${s}</span>
+        <span class="pm-price">${item.prices[i]}</span>
+      </div>`).join('');
+  } else {
+    priceRows = `<div class="pm-price-row"><span class="pm-price single">${item.price}</span></div>`;
+  }
+
+  document.getElementById('pmImg').src         = img;
+  document.getElementById('pmImg').alt         = item.name;
+  document.getElementById('pmTag').textContent  = label;
+  document.getElementById('pmName').textContent = item.name;
+  document.getElementById('pmDesc').textContent = item.desc;
+  document.getElementById('pmPrices').innerHTML = priceRows;
+
+  document.getElementById('productModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeProductModal = function() {
+  document.getElementById('productModal').classList.remove('open');
+  document.body.style.overflow = '';
+};
+
+// Close on backdrop click & Escape key
+document.getElementById('productModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('productModal')) closeProductModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeProductModal();
+});
