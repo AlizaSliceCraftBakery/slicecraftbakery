@@ -780,8 +780,9 @@ footer {
   flex: 1;
 }
 .card-prices.single .price-val {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 1.35rem;
   color: var(--caramel);
 }
 .price-option {
@@ -797,8 +798,9 @@ footer {
   margin-bottom: 0.1rem;
 }
 .price-val {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.2rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 1.1rem;
   color: var(--caramel);
   line-height: 1;
 }
